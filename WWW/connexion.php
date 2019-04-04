@@ -13,16 +13,17 @@ if(isset($_SESSION["utilisateur"]))
     exit();
 }
 require_once("./Controlleur/controlleur.php");
-$erreurmessage = "";
+$erreurMessage = "";
 $email = isset($_POST["email"]) ? filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL): "";
 $mdp = isset($_POST["motDePasse"]) ? filter_input(INPUT_POST,'motDePasse',FILTER_SANITIZE_STRING): "";
 if( $email != "" && $mdp != "") {
-    if (UtilisateurExisteEtMotDePasseJuste($email, hash("sha256",$mdp))) {
+    if (UtilisateurExisteEtMotDePasseJuste($email, $mdp)) {
+        //Mets l’email dans la session et le redirige à la page index.php
         $_SESSION["utilisateur"] = $email;
             header("Location: index.php");
             exit();
     } else {
-        $erreurmessage = "Cette utilisateur n'existe pas";
+        $erreurMessage = "Cette utilisateur n'existe pas";
     }
 }
 ?>
@@ -52,7 +53,7 @@ if( $email != "" && $mdp != "") {
                 <label for="exampleInputPassword1">Mot de passe</label>
                 <input type="password" class="form-control" name="motDePasse" required>
             </div>
-            <label style="color: red"><?= $erreurmessage ?></label>
+            <label style="color: red"><?= $erreurMessage ?></label>
             <br/>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

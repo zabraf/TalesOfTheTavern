@@ -34,15 +34,15 @@
                     <a class="nav-link" href="connexion.php">Se connecter<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="creerUnCompte.php">Creer un compte<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="creerUnCompte.php">Créer un compte<span class="sr-only">(current)</span></a>
                 </li>
                 <?php
             }
             ?>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" placeholder="Rechercher" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
         </form>
     </div>
 </nav>

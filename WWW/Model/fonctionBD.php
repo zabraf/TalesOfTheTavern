@@ -7,6 +7,8 @@
  *  Fichier : fonctionBD.php
  */
 require_once("./Model/connextionDB.php");
+/// Fonction : Permettant d'insérer un utilisateur dans la base
+/// paramètre : nom de l'utilisateur, email de l'utilisateur, mot de passe hasher
 function AjouterUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse)
 {
     $connexion = RecupererConnexion();
@@ -16,6 +18,8 @@ function AjouterUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse)
     $requete->bindParam(":motDePasse", $motDePasse, PDO::PARAM_STR);
     $requete->execute();
 }
+/// Fonction : Permettant de recuperer un utilisateur avec son email
+/// paramètre : email de l'utilisateur
 function RetrouverUtilisateur($emailUtilisateur)
 {
     $connexion = RecupererConnexion();

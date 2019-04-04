@@ -7,6 +7,7 @@
  *  Fichier : deconnecter.php
  */
 session_start();
+//Verifie que la session est vide si ça n’est pas le cas la vide et redirige vers la page "index.php"
 if(isset($_SESSION["utilisateur"]))
 {
     session_destroy();

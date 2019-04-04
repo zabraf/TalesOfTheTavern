@@ -1,6 +1,13 @@
 <?php
+/*  auteur : Raphael Lopes
+ *  Projet : Tales of the Tavern
+ *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
+ *  date : 04.04.19
+ *  Version : 1.0
+ *  Fichier : connexionDB.php
+ */
 /* fonction pour connecter la base de donnéés */
-require_once("../Model/constanteDB.php");
+require_once("./Model/constanteDB.php");
 
 function RecupererConnexion() {
     static $dbc = null;

@@ -1,3 +1,11 @@
+<!--
+ *  auteur : Raphael Lopes
+ *  Projet : Tales of the Tavern
+ *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
+ *  date : 04.04.19
+ *  Version : 1.0
+ *  Fichier : navbar.php
+-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="index.php">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +25,7 @@
                     <a class="nav-link" href="!!!">Mon profile<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="!!!">Déconnecter<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="deconnecter.php">Déconnecter<span class="sr-only">(current)</span></a>
                 </li>
                 <?php
             } else {

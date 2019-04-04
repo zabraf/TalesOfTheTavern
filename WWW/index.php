@@ -1,5 +1,13 @@
 <?php
-require_once("../Controlleur/controlleur.php");
+/*  auteur : Raphael Lopes
+ *  Projet : Tales of the Tavern
+ *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
+ *  date : 04.04.19
+ *  Version : 1.0
+ *  Fichier : index.php
+ */
+require_once("./Controlleur/controlleur.php");
+session_start();
 ?>
 <!doctype html>
 <html lang="fr">
@@ -14,7 +22,7 @@ require_once("../Controlleur/controlleur.php");
     <title>Hello, world!</title>
 </head>
 <body>
-<?php include_once("../Vue/navbar.php");?>
+<?php include_once("./navbar.php");?>
 <h1>title</h1>
 </div>
 

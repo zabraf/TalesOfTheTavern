@@ -1,19 +1,34 @@
 <?php
-require_once("../Controlleur/controlleur.php");
+/*  auteur : Raphael Lopes
+ *  Projet : Tales of the Tavern
+ *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
+ *  date : 04.04.19
+ *  Version : 1.0
+ *  Fichier : creerUnCompte.php
+ */
+session_start();
+if(isset($_SESSION["utilisateur"]))
+{
+    header("Location: index.php");
+    exit();
+}
+require_once("./Controlleur/controlleur.php");
 $erreurmessage = "";
 $nom = isset($_POST["nom"]) ? filter_input(INPUT_POST,'nom',FILTER_SANITIZE_STRING): "";
 $email = isset($_POST["email"]) ? filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL): "";
 $mdp = isset($_POST["motDePasse"]) ? filter_input(INPUT_POST,'motDePasse',FILTER_SANITIZE_STRING): "";
 $confMdp = isset($_POST["confirmerMotDePasse"]) ? filter_input(INPUT_POST,'confirmerMotDePasse',FILTER_SANITIZE_STRING): "";
-var_dump($nom);
-var_dump($email);
-var_dump($mdp);
-var_dump($confMdp);
+
 if($nom != "" && $email != "" && $mdp != "" && $confMdp != "")
 {
     $erreurmessage = InsererUtilisateur($nom,$email,$mdp,$confMdp);
+    if($erreurmessage === true)
+    {
+        $_SESSION["utilisateur"] = $email;
+        header("Location: index.php");
+        exit();
+    }
 }
-var_dump($erreurmessage);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -28,7 +43,7 @@ var_dump($erreurmessage);
     <title>Hello, world!</title>
 </head>
 <body>
-<?php include_once("../Vue/navbar.php");?>
+<?php include_once("./navbar.php");?>
 <br/>
 <div class="container col-sm-12 col-md-6 c border-1">
     <form action="#" method="post">
@@ -37,7 +52,7 @@ var_dump($erreurmessage);
             <input type="text" name="nom" class="form-control" value="<?= $nom ?>" required>
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">Email</label>
+            <label for="exampleInputEmail1">E-mail</label>
             <input type="email" class="form-control" name="email" value="<?= $email ?>" required>
         </div>
         <div class="form-group">
@@ -49,6 +64,7 @@ var_dump($erreurmessage);
             <input type="password" class="form-control" name="confirmerMotDePasse" required>
         </div>
         <label style="color: red"><?php if($erreurmessage !== true){echo $erreurmessage;} ?></label>
+        <br/>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

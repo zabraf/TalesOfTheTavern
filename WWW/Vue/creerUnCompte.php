@@ -1,20 +1,19 @@
 <?php
-require_once "./Controlleur/Controleurleur.php";
+require_once("../Controlleur/controlleur.php");
 $erreurmessage = "";
 $nom = isset($_POST["nom"]) ? filter_input(INPUT_POST,'nom',FILTER_SANITIZE_STRING): "";
 $email = isset($_POST["email"]) ? filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL): "";
 $mdp = isset($_POST["motDePasse"]) ? filter_input(INPUT_POST,'motDePasse',FILTER_SANITIZE_STRING): "";
 $confMdp = isset($_POST["confirmerMotDePasse"]) ? filter_input(INPUT_POST,'confirmerMotDePasse',FILTER_SANITIZE_STRING): "";
+var_dump($nom);
+var_dump($email);
+var_dump($mdp);
+var_dump($confMdp);
 if($nom != "" && $email != "" && $mdp != "" && $confMdp != "")
 {
-    if(AjouterUtilisateur($nom,$email,$mdp,$confMdp) === true)
-    {
-
-    }
-    else{
-        $php_errormsg =
-    }
+    $erreurmessage = InsererUtilisateur($nom,$email,$mdp,$confMdp);
 }
+var_dump($erreurmessage);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -29,28 +28,29 @@ if($nom != "" && $email != "" && $mdp != "" && $confMdp != "")
     <title>Hello, world!</title>
 </head>
 <body>
+<?php include_once("../Vue/navbar.php");?>
 <br/>
-<div class="container col-xl-6 border-1">
-<form action="#" method="post">
-    <div class="form-group">
-        <label for="exampleInputEmail1">Nom</label>
-        <input type="text" name="nom" class="form-control" required>
-    </div>
-    <div class="form-group">
-        <label for="exampleInputEmail1">Email</label>
-        <input type="email" class="form-control" name="email" required>
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Mot de passe</label>
-        <input type="password" class="form-control" name="motDePasse" required>
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Confirmer mot de passe</label>
-        <input type="password" class="form-control" name="confirmerMotDePasse" required>
-    </div>
-    <label style="color: red"><?= $erreurmessage ?></label>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<div class="container col-sm-12 col-md-6 c border-1">
+    <form action="#" method="post">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Nom</label>
+            <input type="text" name="nom" class="form-control" value="<?= $nom ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input type="email" class="form-control" name="email" value="<?= $email ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Mot de passe</label>
+            <input type="password" class="form-control" name="motDePasse" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Confirmer mot de passe</label>
+            <input type="password" class="form-control" name="confirmerMotDePasse" required>
+        </div>
+        <label style="color: red"><?php if($erreurmessage !== true){echo $erreurmessage;} ?></label>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </div>
 
 <!-- Optional JavaScript -->

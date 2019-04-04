@@ -1,5 +1,5 @@
 <?php
-DEFINE('DB_USER', '');
+DEFINE('DB_USER', 'root');
 DEFINE('DB_PASSWORD', '');
 DEFINE('DB_HOST', 'localhost');
-DEFINE('DB_NAME', 'bd_');
+DEFINE('DB_NAME', 'bd_tales');

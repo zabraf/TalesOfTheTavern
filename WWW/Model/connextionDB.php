@@ -1,11 +1,8 @@
 <?php
-/**
- */
-// fonction pour connecter la base de donnéés
-require_once ("./ConstanteDB.php");
+/* fonction pour connecter la base de donnéés */
+require_once("../Model/constanteDB.php");
 
-function
-() {
+function RecupererConnexion() {
     static $dbc = null;
 
     if ($dbc == null) {
@@ -15,7 +12,7 @@ function
                     PDO::ATTR_PERSISTENT => true));
         }
         catch (Exception $e) {
-            die('ne peut pas se connecter a la base de données réessayer plus tard');
+            die('impossible de se connecter a la base de donnée');
         }
     }
     return $dbc;

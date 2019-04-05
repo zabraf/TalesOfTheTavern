@@ -4,34 +4,21 @@
  *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
  *  date : 04.04.19
  *  Version : 1.0
- *  Fichier : creerUnCompte.php
+ *  Fichier : compte.php
  */
+require_once("./Controlleur/controlleur.php");
 session_start();
-if(isset($_SESSION["utilisateur"]))
+$erreurMessage = "";
+
+if(!isset($_SESSION["utilisateur"]))
 {
-    header("Location: index.php");
+    header("location: index.php");
     exit();
 }
-require_once("./Controlleur/controlleur.php");
-$erreurMessage = "";
-// Récupere les valeurs en POST et filtre les inputs
-$nom = isset($_POST["nom"]) ? filter_input(INPUT_POST,'nom',FILTER_SANITIZE_STRING): "";
-$email = isset($_POST["email"]) ? filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL): "";
-$mdp = isset($_POST["motDePasse"]) ? filter_input(INPUT_POST,'motDePasse',FILTER_SANITIZE_STRING): "";
-$confMdp = isset($_POST["confirmerMotDePasse"]) ? filter_input(INPUT_POST,'confirmerMotDePasse',FILTER_SANITIZE_STRING): "";
-
-if($nom != "" && $email != "" && $mdp != "" && $confMdp != "")
-{
-    // Vérifie que le l'utilisateur peux bien ètre creer
-    $erreurMessage = InsererUtilisateur($nom,$email,$mdp,$confMdp);
-    if($erreurMessage === true)
-    {
-        //Créer l'utilisateur, met son E-mail dans la session et le redirigé vers la page principale
-        $_SESSION["utilisateur"] = $email;
-        header("Location: index.php");
-        exit();
-    }
-}
+$utilisateur =  RetrouverUtilisateur($_SESSION["utilisateur"]);
+var_dump($utilisateur);
+$nom = $utilisateur["nom"];
+$email = $utilisateur["email"];
 ?>
 <!doctype html>
 <html lang="fr">
@@ -45,9 +32,8 @@ if($nom != "" && $email != "" && $mdp != "" && $confMdp != "")
 
     <title>Hello, world!</title>
 </head>
-<body>
+<div>
 <?php include_once("./navbar.php");?>
-<br/>
 <div class="container col-sm-12 col-md-6 c border-1">
     <form action="#" method="post">
         <div class="form-group">
@@ -69,10 +55,37 @@ if($nom != "" && $email != "" && $mdp != "" && $confMdp != "")
         </div>
         <label style="color: red"><?php if($erreurMessage !== true){echo $erreurMessage;} ?></label>
         <br/>
-        <button type="submit" class="btn btn-primary">Creer un compte</button>
+        <button type="submit" class="btn btn-primary">Mettre a jour les informations</button>
     </form>
 </div>
-
+<div class="container col-12"></div>
+    <div class="row">
+        <div class="card col-12 col-sm-4">
+            <h1 class="display-4">Titre</h1>
+            <p class="lead">Auteur</p>
+            <p>HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE ...</p>
+            <div class="row">
+                <a class="col-6 btn btn-primary btn-lg" href="#" role="button">Modifier</a><a class=" col-6 btn btn-danger btn-lg" href="#" role="button">Supprimer</a>
+            </div>
+        </div>
+        <div class="card col-12 col-sm-4">
+            <h1 class="display-4">Titre</h1>
+            <p class="lead">Auteur</p>
+            <p>HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE ...</p>
+            <div class="row">
+                <a class="col-6 btn btn-primary btn-lg" href="#" role="button">Modifier</a><a class=" col-6 btn btn-danger btn-lg" href="#" role="button">Supprimer</a>
+            </div>
+        </div>
+        <div class="card col-12 col-sm-4">
+            <h1 class="display-4">Titre</h1>
+            <p class="lead">Auteur</p>
+            <p>HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE ...</p>
+            <div class="row">
+                <a class="col-6 btn btn-primary btn-lg" href="#" role="button">Modifier</a><a class=" col-6 btn btn-danger btn-lg" href="#" role="button">Supprimer</a>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

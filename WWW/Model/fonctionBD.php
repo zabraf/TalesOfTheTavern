@@ -18,15 +18,25 @@ function AjouterUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse)
     $requete->bindParam(":motDePasse", $motDePasse, PDO::PARAM_STR);
     $requete->execute();
 }
+
+function ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("UPDATE utilisateur SET nom=:nom,email=:email,motDePasse=:motDePasse WHERE email=:email");
+    $requete->bindParam(":nom", $nomUtilisateur, PDO::PARAM_STR);
+    $requete->bindParam(":email", $emailUtilisateur, PDO::PARAM_STR);
+    $requete->bindParam(":motDePasse", $motDePasse, PDO::PARAM_STR);
+    $requete->execute();
+}
 /// Fonction : Permettant de recuperer un utilisateur avec son email
 /// paramètre : email de l'utilisateur
 function RetrouverUtilisateur($emailUtilisateur)
 {
     $connexion = RecupererConnexion();
-    $requete = $connexion->prepare("SELECT idUtilisateur, nom, email, motDePasse FROM utilisateur WHERE email = :email");
+    $requete = $connexion->prepare("SELECT * FROM utilisateur WHERE email = :email");
     $requete->bindParam(":email", $emailUtilisateur, PDO::PARAM_STR);
     $requete->execute();
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
-    return $resultat;
+    return $resultat[0];
 }
 ?>

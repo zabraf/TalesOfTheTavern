@@ -22,7 +22,7 @@
             {
                 ?>
                 <li class="nav-item active">
-                    <a class="nav-link" href="!!!">Mon profile<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="compte.php">Mon compte<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="deconnecter.php">Déconnecter<span class="sr-only">(current)</span></a>

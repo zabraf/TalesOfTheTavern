@@ -7,6 +7,7 @@
  *  Fichier : index.php
  */
 require_once("./Controlleur/controlleur.php");
+
 session_start();
 ?>
 <!doctype html>

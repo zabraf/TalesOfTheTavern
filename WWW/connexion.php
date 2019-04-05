@@ -23,7 +23,7 @@ if( $email != "" && $mdp != "") {
             header("Location: index.php");
             exit();
     } else {
-        $erreurMessage = "Cette utilisateur n'existe pas";
+        $erreurMessage = "Le mot de passe ou l'Email est faux";
     }
 }
 ?>
@@ -55,7 +55,7 @@ if( $email != "" && $mdp != "") {
             </div>
             <label style="color: red"><?= $erreurMessage ?></label>
             <br/>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Connexion</button>
         </form>
 </div>
 

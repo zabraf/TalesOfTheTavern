@@ -2,7 +2,7 @@
 /*  auteur : Raphael Lopes
  *  Projet : Tales of the Tavern
  *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
- *  date : 04.04.19
+ *  date : 05.04.19
  *  Version : 1.0
  *  Fichier : compte.php
  */
@@ -15,8 +15,36 @@ if(!isset($_SESSION["utilisateur"]))
     header("location: index.php");
     exit();
 }
-$utilisateur =  RetrouverUtilisateur($_SESSION["utilisateur"]);
-var_dump($utilisateur);
+$nouveauNom = isset($_POST["nom"]) ? trim(filter_input(INPUT_POST,'nom',FILTER_SANITIZE_STRING)): "";
+$nouvelEmail = isset($_POST["email"]) ? trim(filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL)): "";
+$mdp = isset($_POST["motDePasse"]) ? trim(filter_input(INPUT_POST,'motDePasse',FILTER_SANITIZE_STRING)): "";
+$nouveauMdp = isset($_POST["nouveauMotDePasse"]) ? trim(filter_input(INPUT_POST,'nouveauMotDePasse',FILTER_SANITIZE_STRING)): "";
+$confMdp = isset($_POST["confirmerNouveauMotDePasse"]) ? trim(filter_input(INPUT_POST,'confirmerNouveauMotDePasse',FILTER_SANITIZE_STRING)): "";
+if($nouveauNom != "" && $nouvelEmail != "" && $mdp != "")
+{
+    if($nouvelEmail == $_SESSION["utilisateur"] || !UtilisateurExiste($nouvelEmail))
+    {
+        $erreurMessage = ModifierUtilisateurParEmail($nouveauNom,$_SESSION["utilisateur"],$nouvelEmail,$mdp,$nouveauMdp,$confMdp);
+        if($erreurMessage === true)
+        {
+            $_SESSION["utilisateur"] = $nouvelEmail;
+            header("location: index.php");
+            exit();
+        }
+        elseif ($erreurMessage !== false)
+        {
+            $_SESSION["utilisateur"] = $nouvelEmail;
+            $erreurMessage = "le mot de passe n'a pas été modifier car : " . $erreurMessage;
+        } else
+        {
+            $erreurMessage = "le mot de passe est faux";
+        }
+    }else
+    {
+        $erreurMessage = "cette email existe déja";
+    }
+}
+$utilisateur =  RetournerUtilisateur($_SESSION["utilisateur"]);
 $nom = $utilisateur["nom"];
 $email = $utilisateur["email"];
 ?>
@@ -29,62 +57,46 @@ $email = $utilisateur["email"];
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css"  href="MyCss.css">
     <title>Hello, world!</title>
 </head>
-<div>
+<body>
 <?php include_once("./navbar.php");?>
-<div class="container col-sm-12 col-md-6 c border-1">
+<div class="container col-sm-12 col-md-6 c border-1 mb-5">
     <form action="#" method="post">
         <div class="form-group">
-            <label for="exampleInputEmail1">Nom</label>
+            <label>Nom*</label>
             <input type="text" name="nom" class="form-control" value="<?= $nom ?>" required>
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">E-mail</label>
+            <label>E-mail*</label>
             <input type="email" class="form-control" name="email" value="<?= $email ?>" required>
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Mot de passe</label>
+            <label>Ancien mot de passe*</label>
             <input type="password" class="form-control" name="motDePasse" required>
-            <small>Le mot de passe doit contenir au moins 8 caractères et au moins 1 chiffre</small>
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Confirmer mot de passe</label>
-            <input type="password" class="form-control" name="confirmerMotDePasse" required>
+            <label>Nouveau Mot de passe</label>
+            <input type="password" class="form-control" name="nouveauMotDePasse">
+            <small>Le mot de passe doit contenir minimum 8 caractères,  un chiffre (0 à 9) et une lettre (a à Z)</small>
         </div>
+        <div class="form-group">
+            <label>Confirmer Nouveau mot de passe</label>
+            <input type="password" class="form-control" name="confirmerNouveauMotDePasse">
+        </div>
+        <small>*Champs obligatoires</small>
+        <br/>
         <label style="color: red"><?php if($erreurMessage !== true){echo $erreurMessage;} ?></label>
         <br/>
         <button type="submit" class="btn btn-primary">Mettre a jour les informations</button>
     </form>
 </div>
-<div class="container col-12"></div>
-    <div class="row">
-        <div class="card col-12 col-sm-4">
-            <h1 class="display-4">Titre</h1>
-            <p class="lead">Auteur</p>
-            <p>HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE ...</p>
-            <div class="row">
-                <a class="col-6 btn btn-primary btn-lg" href="#" role="button">Modifier</a><a class=" col-6 btn btn-danger btn-lg" href="#" role="button">Supprimer</a>
-            </div>
-        </div>
-        <div class="card col-12 col-sm-4">
-            <h1 class="display-4">Titre</h1>
-            <p class="lead">Auteur</p>
-            <p>HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE ...</p>
-            <div class="row">
-                <a class="col-6 btn btn-primary btn-lg" href="#" role="button">Modifier</a><a class=" col-6 btn btn-danger btn-lg" href="#" role="button">Supprimer</a>
-            </div>
-        </div>
-        <div class="card col-12 col-sm-4">
-            <h1 class="display-4">Titre</h1>
-            <p class="lead">Auteur</p>
-            <p>HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE HISTOIRE ...</p>
-            <div class="row">
-                <a class="col-6 btn btn-primary btn-lg" href="#" role="button">Modifier</a><a class=" col-6 btn btn-danger btn-lg" href="#" role="button">Supprimer</a>
-            </div>
-        </div>
-    </div>
+<div class="container mb-5">
+    <h1>Mes histoires</h1>
+    <a class="col-6 btn btn-primary btn-lg" href="#" role="button">Ajouter une Histoire</a>
+</div>
+<div class="row">
 </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

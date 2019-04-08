@@ -18,14 +18,14 @@ function AjouterUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse)
     $requete->bindParam(":motDePasse", $motDePasse, PDO::PARAM_STR);
     $requete->execute();
 }
-
-function ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse)
+function ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$nouvelEmail,$motDePasse)
 {
     $connexion = RecupererConnexion();
-    $requete = $connexion->prepare("UPDATE utilisateur SET nom=:nom,email=:email,motDePasse=:motDePasse WHERE email=:email");
+    $requete = $connexion->prepare("UPDATE utilisateur SET nom=:nom,email=:nouvelEmail,motDePasse=:motDePasse WHERE email=:email");
     $requete->bindParam(":nom", $nomUtilisateur, PDO::PARAM_STR);
-    $requete->bindParam(":email", $emailUtilisateur, PDO::PARAM_STR);
+    $requete->bindParam(":nouvelEmail", $nouvelEmail, PDO::PARAM_STR);
     $requete->bindParam(":motDePasse", $motDePasse, PDO::PARAM_STR);
+    $requete->bindParam(":email", $emailUtilisateur, PDO::PARAM_STR);
     $requete->execute();
 }
 /// Fonction : Permettant de recuperer un utilisateur avec son email
@@ -36,7 +36,53 @@ function RetrouverUtilisateur($emailUtilisateur)
     $requete = $connexion->prepare("SELECT * FROM utilisateur WHERE email = :email");
     $requete->bindParam(":email", $emailUtilisateur, PDO::PARAM_STR);
     $requete->execute();
+    $resultat = $requete->fetch(PDO::FETCH_ASSOC);
+    return $resultat;
+}
+function RetrouverTouteLesCatégories()
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("SELECT * FROM categorie");
+    $requete->bindParam(":email", $emailUtilisateur, PDO::PARAM_STR);
+    $requete->execute();
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
-    return $resultat[0];
+    return $resultat;
+}
+function AjouterHitoire($titre,$histoire,$idImage,$idCatégorie,$idUtilisateur)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("INSERT INTO histoire(titre, DateCreation, histoire, idImage, idCategorie, idUtilisateur) VALUES (:titre,NOW(),:histoire,:idImage,:idCategorie,:idUtilisateur)");
+    $requete->bindParam(":titre", $titre, PDO::PARAM_STR);
+    $requete->bindParam(":histoire", $histoire, PDO::PARAM_STR);
+    $requete->bindParam(":idImage", $idImage, PDO::PARAM_INT);
+    $requete->bindParam(":idCategorie", $idCatégorie, PDO::PARAM_INT);
+    $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
+    $requete->execute();
+}
+function AjouterImage($urlImage)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("INSERT INTO image(urlImageHistoire) VALUES (:url)");
+    $requete->bindParam(":url", $urlImage, PDO::PARAM_STR);
+    $requete->execute();
+    return $connexion->lastInsertId();
+}
+function ModifierHitoire($idHistoire, $titre,$histoire,$idImage,$idCatégorie)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("UPDATE histoire SET titre=:titre,histoire=:histoire,idImage=:idImage,idCategorie=:idCategorie WHERE idHistoire = :idHistoire");
+    $requete->bindParam(":titre", $titre, PDO::PARAM_STR);
+    $requete->bindParam(":histoire", $histoire, PDO::PARAM_STR);
+    $requete->bindParam(":idImage", $idImage, PDO::PARAM_INT);
+    $requete->bindParam(":idCategorie", $idCatégorie, PDO::PARAM_INT);
+    $requete->bindParam(":idHistoire", $id, $idHistoire::PARAM_INT);
+    $requete->execute();
+}
+function SuprrimerHistoire($idHistoire)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("DELETE FROM histoire WHERE idHistoire = :idHistoire");
+    $requete->bindParam(":idHistoire", $id, $idHistoire::PARAM_INT);
+    $requete->execute();
 }
 ?>

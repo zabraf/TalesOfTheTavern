@@ -14,8 +14,8 @@ if(isset($_SESSION["utilisateur"]))
 }
 require_once("./Controlleur/controlleur.php");
 $erreurMessage = "";
-$email = isset($_POST["email"]) ? filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL): "";
-$mdp = isset($_POST["motDePasse"]) ? filter_input(INPUT_POST,'motDePasse',FILTER_SANITIZE_STRING): "";
+$email = isset($_POST["email"]) ? trim(filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL)): "";
+$mdp = isset($_POST["motDePasse"]) ? trim(filter_input(INPUT_POST,'motDePasse',FILTER_SANITIZE_STRING)): "";
 if( $email != "" && $mdp != "") {
     if (UtilisateurExisteEtMotDePasseJuste($email, $mdp)) {
         //Mets l’email dans la session et le redirige à la page index.php
@@ -46,11 +46,11 @@ if( $email != "" && $mdp != "") {
     <form action="#" method="post">
         <form action="#" method="post">
             <div class="form-group">
-                <label for="exampleInputEmail1">E-mail</label>
+                <label>E-mail</label>
                 <input type="email" class="form-control" name="email" value="<?= $email ?>" required>
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Mot de passe</label>
+                <label>Mot de passe</label>
                 <input type="password" class="form-control" name="motDePasse" required>
             </div>
             <label style="color: red"><?= $erreurMessage ?></label>

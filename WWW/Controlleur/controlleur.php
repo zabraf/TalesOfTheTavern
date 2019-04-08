@@ -14,10 +14,10 @@ define("CHARMAX", 8);
 function  InsererUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse,$motDePasseConfirmation)
 {
     //verfie que le mot de passe fait plus que 8 caractères et contient au mins un chiffre
-    $MotDePasseJuste = VerfieMotDePasse($motDePasse,$motDePasseConfirmation);
-    if ($MotDePasseJuste === true) {
-        $utilisateur = RetrouverUtilisateur($emailUtilisateur);
-        if ($utilisateur == null) {
+    $MotDePasseEstJuste = VerfieMotDePasse($motDePasse,$motDePasseConfirmation);
+    if ($MotDePasseEstJuste === true) {
+
+        if (!UtilisateurExiste($emailUtilisateur)) {
             AjouterUtilisateur($nomUtilisateur, $emailUtilisateur, hash("sha256", $motDePasse));
             return true;
         } else {
@@ -25,30 +25,32 @@ function  InsererUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse,$motD
         }
     }
     else {
-        return $MotDePasseJuste;
+        return $MotDePasseEstJuste;
     }
 
 
 
 }
-function ModifierUtilisateurParEmail($nomUtilisateur,$emailUtilisateur,$motDePasse,$motDePasseConfirmation)
+function ModifierUtilisateurParEmail($nomUtilisateur,$emailUtilisateur,$nouvelEmail,$motDePasse,$nouveauMotDePasse,$motDePasseConfirmation)
 {
-    $MotDePasseJuste = VerfieMotDePasse($motDePasse,$motDePasseConfirmation);
-    if ($MotDePasseJuste === true) {
-        if(UtilisateurExisteEtMotDePasseJuste()) {
-            ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,hash("sha256", $motDePasse));
+    if(UtilisateurExisteEtMotDePasseJuste($emailUtilisateur,$motDePasse)) {
+        $MotDePasseEstJuste = VerfieMotDePasse($nouveauMotDePasse,$motDePasseConfirmation);
+        if ($MotDePasseEstJuste === true) {
+        ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$nouvelEmail,hash("sha256", $nouveauMotDePasse));
+        return true;
+        } else
+        {
+            ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$nouvelEmail,hash("sha256", $motDePasse));
+            return $MotDePasseEstJuste;
         }
-        else{
-            return "le mot de passe est faux";
-        }
-    } else {
-        return $MotDePasseJuste;
+    } else{
+        return false;
     }
 
 }
 function VerfieMotDePasse($motDePasse,$motDePasseConfirmation)
 {
-    if (preg_match('#[0-9]#', $motDePasse) == 1) {
+    if (preg_match('~[0-9]~', $motDePasse) >= 1 && preg_match('~[a-zA-Z]~', $motDePasse) >= 1) {
         if (strlen($motDePasse) >= CHARMAX) {
             if ($motDePasse === $motDePasseConfirmation) {
                 return true;
@@ -56,26 +58,57 @@ function VerfieMotDePasse($motDePasse,$motDePasseConfirmation)
                 return "les mots de passe ne correspondent pas";
             }
         } else {
-            return "le mot de passe doit contenir au moins de 8 caractères";
+            return "le mot de passe doit contenir au minimum de 8 caractères";
         }
     } else {
-        return "le mot de passe doit contenir au moins 1 chiffre";
+        return "le mot de passe doit contenir au minimum un chiffre (0 à 9) et une lettre (a à Z)";
     }
 }
 function RetournerUtilisateur($emailUtilisateur)
 {
-    return RetrouverUtilisateur($emailUtilisateur);
+    $utilisateur = RetrouverUtilisateur($emailUtilisateur);
+    return $utilisateur;
+}
+function RetournerTouteLesCategories()
+{
+    $catégorie = RetrouverTouteLesCatégories();
+    return $catégorie;
+}
+function AfficherHistoire($urlImage,$titre,$auteur,$histoire)
+{
+        $histoireHTML = '<div class="card col-md-12 col-lg-4 mb-3">'
+        . '<img class="card-img-top" src="Img/' . $urlImage . '" alt="Image de l\'histoire">'
+        . '<h1 class="display-4">' . $titre . '</h1>'
+        . '<p class="lead"> ' . $auteur . '</p>'
+        . '<p>'. substr($histoire,1,140) . "..." . '</p>'
+        . '<div class="row">'
+        . '<a class="col-6 btn btn-primary btn-lg" href="#" role="button">Modifier</a><a class=" col-6 btn btn-danger btn-lg" href="#" role="button">Supprimer</a>'
+        . '</div>'
+        . '</div>';
+        return $histoireHTML;
+
+}
+function UtilisateurExiste($emailUtilisateur)
+{
+    $utilisateur = RetournerUtilisateur($emailUtilisateur);
+    if($utilisateur != null)
+    {
+        return true;
+    }else{
+        return false;
+    }
 }
 /// Fonction : Permettant de savoir si un utilisateur existe et le mot de passe est égale a celuil
 /// paramètre :  email de l'utilisateur, mot de passe
 /// retourne : TRUE = l’utilisateur existe et le mot de passe est juste, FALSE = si le mot de passe est faux ou l'utilisateur n'existe pas
 function  UtilisateurExisteEtMotDePasseJuste($emailUtilisateur,$motDePasse)
 {
-    $utilisateur = RetrouverUtilisateur($emailUtilisateur);
-    if($utilisateur != null)
+    $utilisateur = RetournerUtilisateur($emailUtilisateur);
+    if(UtilisateurExiste($emailUtilisateur))
     {
         if(hash("sha256",$motDePasse )== $utilisateur["motDePasse"])
             return true;
     }
     return false;
 }
+

@@ -15,10 +15,10 @@ if(isset($_SESSION["utilisateur"]))
 require_once("./Controlleur/controlleur.php");
 $erreurMessage = "";
 // Récupere les valeurs en POST et filtre les inputs
-$nom = isset($_POST["nom"]) ? filter_input(INPUT_POST,'nom',FILTER_SANITIZE_STRING): "";
-$email = isset($_POST["email"]) ? filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL): "";
-$mdp = isset($_POST["motDePasse"]) ? filter_input(INPUT_POST,'motDePasse',FILTER_SANITIZE_STRING): "";
-$confMdp = isset($_POST["confirmerMotDePasse"]) ? filter_input(INPUT_POST,'confirmerMotDePasse',FILTER_SANITIZE_STRING): "";
+$nom = isset($_POST["nom"]) ? trim(filter_input(INPUT_POST,'nom',FILTER_SANITIZE_STRING)): "";
+$email = isset($_POST["email"]) ? trim(filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL)): "";
+$mdp = isset($_POST["motDePasse"]) ? trim(filter_input(INPUT_POST,'motDePasse',FILTER_SANITIZE_STRING)): "";
+$confMdp = isset($_POST["confirmerMotDePasse"]) ? trim(filter_input(INPUT_POST,'confirmerMotDePasse',FILTER_SANITIZE_STRING)): "";
 
 if($nom != "" && $email != "" && $mdp != "" && $confMdp != "")
 {
@@ -51,25 +51,27 @@ if($nom != "" && $email != "" && $mdp != "" && $confMdp != "")
 <div class="container col-sm-12 col-md-6 c border-1">
     <form action="#" method="post">
         <div class="form-group">
-            <label for="exampleInputEmail1">Nom</label>
+            <label>Nom*</label>
             <input type="text" name="nom" class="form-control" value="<?= $nom ?>" required>
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">E-mail</label>
+            <label>E-mail*</label>
             <input type="email" class="form-control" name="email" value="<?= $email ?>" required>
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Mot de passe</label>
+            <label >Mot de passe*</label>
             <input type="password" class="form-control" name="motDePasse" required>
-            <small>Le mot de passe doit contenir au moins 8 caractères et au moins 1 chiffre</small>
+            <small>Le mot de passe doit contenir minimum 8 caractères,  un chiffre (0 à 9) et une lettre (a à Z)</small>
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Confirmer mot de passe</label>
+            <label>Confirmer mot de passe*</label>
             <input type="password" class="form-control" name="confirmerMotDePasse" required>
         </div>
         <label style="color: red"><?php if($erreurMessage !== true){echo $erreurMessage;} ?></label>
+        <small>*Champs obligatoires</small>
         <br/>
         <button type="submit" class="btn btn-primary">Creer un compte</button>
+
     </form>
 </div>
 

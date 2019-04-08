@@ -112,3 +112,11 @@ function  UtilisateurExisteEtMotDePasseJuste($emailUtilisateur,$motDePasse)
     return false;
 }
 
+function InsererImage($urlImage)
+{
+    return AjouterImage($urlImage);
+}
+function InsererHistoire($titre,$histoire,$idImage,$idCatégorie,$emailUtilisateur){
+    $idUtilisateur =  $utilisateur = RetournerUtilisateur($emailUtilisateur)["idUtilisateur"];
+    AjouterHitoire($titre,$histoire,$idImage,$idCatégorie,$idUtilisateur);
+}

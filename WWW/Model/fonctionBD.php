@@ -67,22 +67,46 @@ function AjouterImage($urlImage)
     $requete->execute();
     return $connexion->lastInsertId();
 }
-function ModifierHitoire($idHistoire, $titre,$histoire,$idImage,$idCatégorie)
+function ModifierHitoire($idHistoire, $titre,$histoire,$idImage,$idCategorie)
 {
     $connexion = RecupererConnexion();
     $requete = $connexion->prepare("UPDATE histoire SET titre=:titre,histoire=:histoire,idImage=:idImage,idCategorie=:idCategorie WHERE idHistoire = :idHistoire");
     $requete->bindParam(":titre", $titre, PDO::PARAM_STR);
     $requete->bindParam(":histoire", $histoire, PDO::PARAM_STR);
     $requete->bindParam(":idImage", $idImage, PDO::PARAM_INT);
-    $requete->bindParam(":idCategorie", $idCatégorie, PDO::PARAM_INT);
-    $requete->bindParam(":idHistoire", $id, $idHistoire::PARAM_INT);
+    $requete->bindParam(":idCategorie", $idCategorie, PDO::PARAM_INT);
+    $requete->bindParam(":idHistoire", $idHistoire, PDO::PARAM_INT);
     $requete->execute();
 }
-function SuprrimerHistoire($idHistoire)
+function SupprimerHistoire($idHistoire)
 {
     $connexion = RecupererConnexion();
     $requete = $connexion->prepare("DELETE FROM histoire WHERE idHistoire = :idHistoire");
     $requete->bindParam(":idHistoire", $id, $idHistoire::PARAM_INT);
     $requete->execute();
+}
+function RetrouverHistoireParId($idHistoire)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("SELECT titre, histoire, idImage, idCategorie, email FROM histoire as his INNER JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur WHERE idHistoire = :id");
+    $requete->bindParam(":id", $idHistoire, PDO::PARAM_INT);
+    $requete->execute();
+    $resultat = $requete->fetch(PDO::FETCH_ASSOC);
+    return $resultat;
+}
+function RetrouverTouteHistoireparUtilisateur($idUtilisateur)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("SELECT idHistoire, titre, histoire, urlImageHistoire,urlImageCategorie, nomCategorie, nom  
+                                              FROM histoire as his 
+                                              LEFT  JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur
+                                              LEFT  JOIN categorie as cat ON his.idCategorie = cat.idCategorie
+                                              LEFT  JOIN image as ima ON his.idImage = ima.idImage
+                                              WHERE  his.idUtilisateur = :idUtilisateur
+                                              ORDER BY his.dateCreation ASC");
+    $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
+    $requete->execute();
+    $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+    return $resultat;
 }
 ?>

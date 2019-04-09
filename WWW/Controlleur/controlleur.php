@@ -21,7 +21,7 @@ function  InsererUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse,$motD
             AjouterUtilisateur($nomUtilisateur, $emailUtilisateur, hash("sha256", $motDePasse));
             return true;
         } else {
-            return "Cette adresse e-mail est déjà utilisée";
+            return "Cette adresse e-mail est déjà utilisée.";
         }
     }
     else {
@@ -61,7 +61,7 @@ function VerfieMotDePasse($motDePasse,$motDePasseConfirmation)
             return "le mot de passe doit contenir au minimum de 8 caractères";
         }
     } else {
-        return "le mot de passe doit contenir au minimum un chiffre (0 à 9) et une lettre (a à Z)";
+        return "Le mot de passe doit contenir au minimum 8 caractères";
     }
 }
 function RetournerUtilisateur($emailUtilisateur)
@@ -74,15 +74,16 @@ function RetournerTouteLesCategories()
     $catégorie = RetrouverTouteLesCatégories();
     return $catégorie;
 }
-function AfficherHistoire($urlImage,$titre,$auteur,$histoire)
+function AfficherHistoire($idHistoire,$urlImage,$titre,$auteur,$catégorie,$histoire)
 {
         $histoireHTML = '<div class="card col-md-12 col-lg-4 mb-3">'
-        . '<img class="card-img-top" src="Img/' . $urlImage . '" alt="Image de l\'histoire">'
+        . '<img class="card-img-top" src="' . $urlImage . '" alt="Image de l\'histoire">'
         . '<h1 class="display-4">' . $titre . '</h1>'
         . '<p class="lead"> ' . $auteur . '</p>'
-        . '<p>'. substr($histoire,1,140) . "..." . '</p>'
+        . '<p class="lead"> ' . $catégorie . '</p>'
+        . '<p>'. substr($histoire,0,140) . "..." . '</p>'
         . '<div class="row">'
-        . '<a class="col-6 btn btn-primary btn-lg" href="#" role="button">Modifier</a><a class=" col-6 btn btn-danger btn-lg" href="#" role="button">Supprimer</a>'
+        . '<a class="col-6 btn btn-primary btn-lg" href="histoire.php?id='. $idHistoire.'" role="button">Modifier</a><a class=" col-6 btn btn-danger btn-lg" href="#" role="button">Supprimer</a>'
         . '</div>'
         . '</div>';
         return $histoireHTML;
@@ -119,4 +120,14 @@ function InsererImage($urlImage)
 function InsererHistoire($titre,$histoire,$idImage,$idCatégorie,$emailUtilisateur){
     $idUtilisateur =  $utilisateur = RetournerUtilisateur($emailUtilisateur)["idUtilisateur"];
     AjouterHitoire($titre,$histoire,$idImage,$idCatégorie,$idUtilisateur);
+}
+function RetournerHistoireParId($idHistoire)
+{
+    $histoire =  RetrouverHistoireParId($idHistoire);
+    return $histoire;
+}
+function RetournerTouteHistoireCreerParUnUtilisateur($emailUtilisateur)
+{
+    $idUtilisateur = RetournerUtilisateur($emailUtilisateur)["idUtilisateur"];
+    return RetrouverTouteHistoireparUtilisateur($idUtilisateur);
 }

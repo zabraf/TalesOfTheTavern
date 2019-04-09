@@ -14,43 +14,8 @@ if(!isset($_SESSION["utilisateur"]))
     exit();
 }
 require_once("./Controlleur/controlleur.php");
+require_once("./Controlleur/histoire.inc.php");
 
-$erreurMessage = "";
-$touteLescategorie = RetournerTouteLesCategories();
-$titre = isset($_POST["titre"]) ? trim(filter_input(INPUT_POST,'titre',FILTER_SANITIZE_STRING)): "";
-$histoire = isset($_POST["histoire"]) ?  trim(filter_input(INPUT_POST,'histoire',FILTER_SANITIZE_STRING)): "";
-$categorie = isset($_POST["categorie"]) ?  trim(filter_input(INPUT_POST,'categorie',FILTER_SANITIZE_NUMBER_INT)): "";
-var_dump($titre);
-var_dump($histoire);
-var_dump($categorie);
-if($titre != "" && $histoire != "" && $categorie != "") {
-    $idImage = null;
-    if(isset($_FILES["image"]))
-    {
-        $Dossier = "/Img/";
-        $extensionsAccepter = ['jpeg', 'jpg', 'png']; // Get all the file extensions
-        $nomFichier = $_FILES['image']['name'];
-        $tailleFichier = $_FILES['image']['size'];
-        $NomTemporaire = $_FILES['image']['tmp_name'];
-        $typeDeFichier = $_FILES['image']['type'];
-        $extension = strtolower(end(explode('.', $nomFichier)));
-
-        $cheminUpload =  $Dossier . basename(uniqid() . $nomFichier);
-        var_dump($cheminUpload);
-        if (!in_array($extension, $extensionsAccepter)) {
-            $erreurMessage = "se type d'extension n'est pas accepté (jpeg,jpg,png)";
-        }
-
-        if ($tailleFichier > 5000000) { // 5000000 = 5MB
-            $erreurMessage = "Ce fichier fait plus que 5 MB. il doit être moins ou égale à 5 MB";
-        }
-
-        if ($erreurMessage == "") {
-            move_uploaded_file($NomTemporaire, $cheminUpload);
-            $idImage = InsererImage($cheminUpload);
-        }
-    }
-}
 ?>
 <!doctype html>
 <html lang="fr">
@@ -71,20 +36,25 @@ if($titre != "" && $histoire != "" && $categorie != "") {
     <form action="#" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="exampleInputEmail1">Titre*</label>
-            <input type="text" name="titre" class="form-control" value="" required>
+            <input type="text" name="titre" class="form-control" value="<?= $titreHistoire ?>" required>
         </div>
         <div class="form-group">
             <label>Histoire*</label>
-            <textarea class="form-control" rows="5" name="histoire" required></textarea>
+            <textarea class="form-control" rows="5" name="histoire" required> <?= $chaineHistoire ?> </textarea>
         </div>
         <div class="form-group">
             <label>Catégorie*</label>
             <select class="form-control" name="categorie">
-            <?php
-            for ($i = 0; $i < count($touteLescategorie) ; $i++) {
-               echo "<option value=\"".  $touteLescategorie[$i]["idCategorie"] . "\"> " .$touteLescategorie[$i]["nomCategorie"] . "</option>";
-            }
-            ?>
+                <?php
+                if(isset($_GET["id"]))
+                {
+                    AfficherTouteLesCategorieAvecUneSelectioner($categorieHistoire);
+                }
+                else
+                {
+                    AfficherTouteLesCategorie();
+                }
+                ?>
             </select>
         </div>
         <input type="file" id="image" name="image" accept="image/*">
@@ -92,7 +62,7 @@ if($titre != "" && $histoire != "" && $categorie != "") {
         <label style="color: red"><?php if($erreurMessage !== true){echo $erreurMessage;} ?></label>
         <small>*Champs obligatoires</small>
         <br/>
-        <button type="submit" class="btn btn-primary">Ajouter une histoire</button>
+        <button type="submit" class="btn btn-primary"><?= $texteButton ?></button>
     </form>
 </div>
 

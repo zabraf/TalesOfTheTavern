@@ -88,7 +88,11 @@ function SupprimerHistoire($idHistoire)
 function RetrouverHistoireParId($idHistoire)
 {
     $connexion = RecupererConnexion();
-    $requete = $connexion->prepare("SELECT titre, histoire, idImage, idCategorie, email FROM histoire as his INNER JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur WHERE idHistoire = :id");
+    $requete = $connexion->prepare("SELECT titre, histoire, idImage, idCategorie, email 
+                                              FROM histoire as his 
+                                              INNER JOIN utilisateur as uti 
+                                              ON his.idUtilisateur = uti.idUtilisateur 
+                                              WHERE idHistoire = :id");
     $requete->bindParam(":id", $idHistoire, PDO::PARAM_INT);
     $requete->execute();
     $resultat = $requete->fetch(PDO::FETCH_ASSOC);
@@ -109,15 +113,19 @@ function RetrouverTouteHistoireparUtilisateur($idUtilisateur)
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;
 }
-function RetrouverTouteHistoireParDateDeCreation()
+function RetrouverTouteHistoireTrier($trie)
 {
     $connexion = RecupererConnexion();
-    $requete = $connexion->prepare("SELECT idHistoire, titre, histoire, urlImageHistoire,urlImageCategorie, nomCategorie, nom  
-                                              FROM histoire as his 
-                                              LEFT  JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur
-                                              LEFT  JOIN categorie as cat ON his.idCategorie = cat.idCategorie
-                                              LEFT  JOIN image as ima ON his.idImage = ima.idImage
-                                              ORDER BY his.dateCreation DESC");
+    $requete = $connexion->prepare("SELECT his.idHistoire, titre, his.histoire, urlImageHistoire,urlImageCategorie, nomCategorie, nom, 
+                                              (AVG(style) + AVG(eva.histoire) + AVG(orthographe) + AVG(originalite))/4 as Moyenne 
+                                              FROM histoire as his
+                                              LEFT JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur 
+                                              LEFT JOIN categorie as cat ON his.idCategorie = cat.idCategorie 
+                                              LEFT JOIN image as ima ON his.idImage = ima.idImage 
+                                              LEFT JOIN evaluation as eva ON his.idHistoire = eva.idHistoire 
+                                              GROUP BY idHistoire 
+                                              ORDER By :trie DESC");
+    $requete->bindParam(":trie", $trie, PDO::PARAM_STR);
     $requete->execute();
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;

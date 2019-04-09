@@ -11,9 +11,14 @@ $nouvelEmail = isset($_POST["email"]) ? trim(filter_input(INPUT_POST,'email',FIL
 $mdp = isset($_POST["motDePasse"]) ? trim(filter_input(INPUT_POST,'motDePasse',FILTER_SANITIZE_STRING)): "";
 $nouveauMdp = isset($_POST["nouveauMotDePasse"]) ? trim(filter_input(INPUT_POST,'nouveauMotDePasse',FILTER_SANITIZE_STRING)): "";
 $confMdp = isset($_POST["confirmerNouveauMotDePasse"]) ? trim(filter_input(INPUT_POST,'confirmerNouveauMotDePasse',FILTER_SANITIZE_STRING)): "";
+
+if(isset($_POST["supprimer"]))
+{
+
+}
 if($nouveauNom != "" && $nouvelEmail != "" && $mdp != "")
 {
-    if($nouvelEmail == $_SESSION["utilisateur"] || !UtilisateurExiste($nouvelEmail))
+    if(strtolower($nouvelEmail) == strtolower($_SESSION["utilisateur"]) || !UtilisateurExiste($nouvelEmail))
     {
         $erreurMessage = ModifierUtilisateurParEmail($nouveauNom,$_SESSION["utilisateur"],$nouvelEmail,$mdp,$nouveauMdp,$confMdp);
         if($erreurMessage === true)
@@ -48,6 +53,6 @@ function afficherHitoires()
         {
             $histoire[$i]["urlImageHistoire"] = $histoire[$i]["urlImageCategorie"];
         }
-        echo AfficherHistoire($histoire["$i"]["idHistoire"],$histoire["$i"]["urlImageHistoire"],$histoire[$i]["titre"],$histoire[$i]["nom"],$histoire["$i"]["nomCategorie"],$histoire[$i]["histoire"]);
+        echo AfficherHistoire($histoire["$i"]["idHistoire"],$histoire["$i"]["urlImageHistoire"],$histoire[$i]["titre"],$histoire[$i]["nom"],$histoire["$i"]["nomCategorie"],$histoire[$i]["histoire"],true);
     }
 }

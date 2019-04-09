@@ -9,20 +9,14 @@
 $histoires = "";
 if(isset($_GET["ordre"]))
 {
-    $post = $_GET["ordre"];
+    $get = $_GET["ordre"];
 }
 else
 {
-    $post = "default";
+    $get = "default";
 }
-    switch ($post) {
-        case "note":
-            $histoires = "";
-            break;
-        default:
-            $histoires = RetournerTouteHistoireParDateDeCreation($histoires);
-            break;
-    }
+$histoires = RetournerTouteHistoire($get);
+var_dump($histoires);
 
 function afficherHitoires($histoires)
 {

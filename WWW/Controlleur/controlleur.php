@@ -131,10 +131,17 @@ function RetournerTouteHistoireCreerParUnUtilisateur($emailUtilisateur)
     $idUtilisateur = RetournerUtilisateur($emailUtilisateur)["idUtilisateur"];
     return RetrouverTouteHistoireparUtilisateur($idUtilisateur);
 }
-function RetournerTouteHistoireParDateDeCreation()
+function RetournerTouteHistoire($trie)
 {
-    $histoires = RetrouverTouteHistoireParDateDeCreation();
-    return $histoires;
+    switch ($trie)
+    {
+        case "Moyenne":
+            return RetrouverTouteHistoireTrier($trie);
+            break;
+        default:
+            return RetrouverTouteHistoireTrier("dateCreation");
+            break;
+    }
 }
 function SuppprimerHisoireParId($idHistoire)
 {

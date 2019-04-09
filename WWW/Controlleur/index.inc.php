@@ -6,9 +6,32 @@
  *  Version : 1.0
  *  Fichier : index.inc.php
  */
-/**
- * Created by PhpStorm.
- * User: Administrateur
- * Date: 09.04.2019
- * Time: 11:14
- */
+$histoires = "";
+if(isset($_GET["ordre"]))
+{
+    $post = $_GET["ordre"];
+}
+else
+{
+    $post = "default";
+}
+    switch ($post) {
+        case "note":
+            $histoires = "";
+            break;
+        default:
+            $histoires = RetournerTouteHistoireParDateDeCreation($histoires);
+            break;
+    }
+
+function afficherHitoires($histoires)
+{
+    for($i = 0; $i < count($histoires); $i++)
+    {
+        if($histoires[$i]["urlImageHistoire"] == null)
+        {
+            $histoires[$i]["urlImageHistoire"] = $histoires[$i]["urlImageCategorie"];
+        }
+        echo AfficherHistoire($histoires["$i"]["idHistoire"],$histoires["$i"]["urlImageHistoire"],$histoires[$i]["titre"],$histoires[$i]["nom"],$histoires["$i"]["nomCategorie"],$histoires[$i]["histoire"],false);
+    }
+}

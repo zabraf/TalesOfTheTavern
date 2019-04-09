@@ -7,6 +7,7 @@
  *  Fichier : index.php
  */
 require_once("./Controlleur/controlleur.php");
+require_once("./Controlleur/index.inc.php");
 
 session_start();
 ?>
@@ -20,11 +21,14 @@ session_start();
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Tales of the tavern</title>
 </head>
 <body>
 <?php include_once("./navbar.php");?>
-<h1>title</h1>
+<h1>Tales of the tavern</h1>
+<div class="row">
+<?php afficherHitoires($histoires); ?>
+</div>
 </div>
 
 <!-- Optional JavaScript -->

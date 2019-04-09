@@ -2,14 +2,31 @@
 /*  auteur : Raphael Lopes
  *  Projet : Tales of the Tavern
  *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
- *  date : 04.04.19
+ *  date : 05.04.19
  *  Version : 1.0
- *  Fichier : index.php
+ *  Fichier : supprimer.php
  */
-require_once("./Controlleur/controlleur.php");
-require_once("./Controlleur/index.inc.php");
-
 session_start();
+if(!isset($_SESSION["utilisateur"]))
+{
+    header("location: index.php");
+    exit();
+}
+
+require_once("./Controlleur/controlleur.php");
+$idHistoire = isset($_GET["id"]) ? trim(filter_input(INPUT_GET,'id',FILTER_SANITIZE_NUMBER_INT)): "";
+$histoire = RetournerHistoireParId($idHistoire);
+if ($histoire === null || strtolower($histoire["email"]) != strtolower($_SESSION["utilisateur"]))
+{
+   header("Location: compte.php");
+   exit();
+}
+if(isset($_POST["supprimer"]))
+{
+    SuppprimerHisoireParId($idHistoire);
+    header("Location: compte.php");
+    exit();
+}
 ?>
 <!doctype html>
 <html lang="fr">
@@ -25,10 +42,16 @@ session_start();
 </head>
 <body>
 <?php include_once("./navbar.php");?>
-<h1>Tales of the tavern</h1>
-<div class="row">
-<?php afficherHitoires($histoires); ?>
-</div>
+<div class="container col-sm-12 col-md-6 c border-1 mb-5">
+    <h1>
+        Êtes-vous sûr de vouloir supprimer cette histoire ?
+    </h1>
+    <form action="#" method="post">
+        <div class="row">
+            <button type="submit" class="btn btn-danger col-12 col-md-6 btn-lg" name="supprimer">Oui</button>
+            <a class="col-6 col-md-6 btn btn-primary btn-lg" href="compte.php" role="button">Non</a>
+        </div>
+    </form>
 </div>
 
 <!--bootstrap-->

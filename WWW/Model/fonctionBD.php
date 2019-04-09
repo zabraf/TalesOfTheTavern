@@ -82,7 +82,7 @@ function SupprimerHistoire($idHistoire)
 {
     $connexion = RecupererConnexion();
     $requete = $connexion->prepare("DELETE FROM histoire WHERE idHistoire = :idHistoire");
-    $requete->bindParam(":idHistoire", $id, $idHistoire::PARAM_INT);
+    $requete->bindParam(":idHistoire", $idHistoire, PDO::PARAM_INT);
     $requete->execute();
 }
 function RetrouverHistoireParId($idHistoire)
@@ -105,6 +105,19 @@ function RetrouverTouteHistoireparUtilisateur($idUtilisateur)
                                               WHERE  his.idUtilisateur = :idUtilisateur
                                               ORDER BY his.dateCreation ASC");
     $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
+    $requete->execute();
+    $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+    return $resultat;
+}
+function RetrouverTouteHistoireParDateDeCreation()
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("SELECT idHistoire, titre, histoire, urlImageHistoire,urlImageCategorie, nomCategorie, nom  
+                                              FROM histoire as his 
+                                              LEFT  JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur
+                                              LEFT  JOIN categorie as cat ON his.idCategorie = cat.idCategorie
+                                              LEFT  JOIN image as ima ON his.idImage = ima.idImage
+                                              ORDER BY his.dateCreation DESC");
     $requete->execute();
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;

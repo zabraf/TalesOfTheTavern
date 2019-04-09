@@ -36,8 +36,8 @@ function ModifierUtilisateurParEmail($nomUtilisateur,$emailUtilisateur,$nouvelEm
     if(UtilisateurExisteEtMotDePasseJuste($emailUtilisateur,$motDePasse)) {
         $MotDePasseEstJuste = VerfieMotDePasse($nouveauMotDePasse,$motDePasseConfirmation);
         if ($MotDePasseEstJuste === true) {
-        ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$nouvelEmail,hash("sha256", $nouveauMotDePasse));
-        return true;
+            ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$nouvelEmail,hash("sha256", $nouveauMotDePasse));
+            return true;
         } else
         {
             ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$nouvelEmail,hash("sha256", $motDePasse));
@@ -74,20 +74,20 @@ function RetournerTouteLesCategories()
     $catégorie = RetrouverTouteLesCatégories();
     return $catégorie;
 }
-function AfficherHistoire($idHistoire,$urlImage,$titre,$auteur,$catégorie,$histoire)
+function AfficherHistoire($idHistoire,$urlImage,$titre,$auteur,$catégorie,$histoire,$afficherBoutton)
 {
-        $histoireHTML = '<div class="card col-md-12 col-lg-4 mb-3">'
+    $histoireHTML = '<div class="card col-md-12 col-lg-4 mb-3">'
         . '<img class="card-img-top" src="' . $urlImage . '" alt="Image de l\'histoire">'
         . '<h1 class="display-4">' . $titre . '</h1>'
         . '<p class="lead"> ' . $auteur . '</p>'
         . '<p class="lead"> ' . $catégorie . '</p>'
-        . '<p>'. substr($histoire,0,140) . "..." . '</p>'
-        . '<div class="row">'
-        . '<a class="col-6 btn btn-primary btn-lg" href="histoire.php?id='. $idHistoire.'" role="button">Modifier</a><a class=" col-6 btn btn-danger btn-lg" href="#" role="button">Supprimer</a>'
-        . '</div>'
-        . '</div>';
-        return $histoireHTML;
-
+        . '<p>'. substr($histoire,0,140) . "..." . '</p>';
+    if($afficherBoutton) {
+        $histoireHTML .= '<div class="row"><a class="col-6 btn btn-primary btn-lg" href="histoire.php?id=' . $idHistoire . '" role="button">Modifier</a>'
+            . '<a class=" col-6 btn btn-danger btn-lg" href="supprimer.php?id=' . $idHistoire . '" role="button">Supprimer</a></div>';
+    }
+    $histoireHTML .= '</div>';
+    return $histoireHTML;
 }
 function UtilisateurExiste($emailUtilisateur)
 {
@@ -130,4 +130,13 @@ function RetournerTouteHistoireCreerParUnUtilisateur($emailUtilisateur)
 {
     $idUtilisateur = RetournerUtilisateur($emailUtilisateur)["idUtilisateur"];
     return RetrouverTouteHistoireparUtilisateur($idUtilisateur);
+}
+function RetournerTouteHistoireParDateDeCreation()
+{
+    $histoires = RetrouverTouteHistoireParDateDeCreation();
+    return $histoires;
+}
+function SuppprimerHisoireParId($idHistoire)
+{
+    SupprimerHistoire($idHistoire);
 }

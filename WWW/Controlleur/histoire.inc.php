@@ -33,7 +33,7 @@ $titre = isset($_POST["titre"]) ? trim(filter_input(INPUT_POST,'titre',FILTER_SA
 $histoire = isset($_POST["histoire"]) ?  trim(filter_input(INPUT_POST,'histoire',FILTER_SANITIZE_STRING)): "";
 $categorie = isset($_POST["categorie"]) ?  trim(filter_input(INPUT_POST,'categorie',FILTER_SANITIZE_NUMBER_INT)): "";
 if($titre != "" && $histoire != "" && $categorie != "") {
-    if($_FILES["image"]["error"] == 4) // verifie si utilisateur a mis une image ou non
+    if($_FILES["image"]["error"] != 4) // verifie si utilisateur a mis une image ou non
     {
         $Dossier = "Img/";
         $extensionsAccepter = ['jpeg', 'jpg', 'png'];
@@ -52,12 +52,12 @@ if($titre != "" && $histoire != "" && $categorie != "") {
         if ($tailleFichier > 5000000) { // 5000000 = 5MB
             $erreurMessage = "Ce fichier fait plus que 5 Mb. Il doit être moins ou égal à 5 Mb.";
         }
-
-        if ($erreurMessage == "" && $_FILES["image"]["error"]) {
+        if ($erreurMessage == "" && $_FILES["image"]["error"] == 0) {
             move_uploaded_file($NomTemporaire, $cheminUpload);
             $idImage = InsererImage($cheminUpload);
         }
     }
+
     //TODO Modifier gestion d'erreur
     if(isset($_GET["id"]))
     {

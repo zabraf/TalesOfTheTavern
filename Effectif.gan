@@ -65,7 +65,7 @@
             <task id="75" name="Analyse" color="#8cb6ce" meeting="false" start="2019-04-09" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true"/>
             <task id="77" name="Implémentation" color="#8cb6ce" meeting="false" start="2019-04-09" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="61" name="Documentation" color="#8cb6ce" meeting="false" start="2019-04-02" duration="5" complete="0" thirdDate="2019-03-19" thirdDate-constraint="0" expand="true"/>
+        <task id="61" name="Documentation" color="#8cb6ce" meeting="false" start="2019-04-02" duration="6" complete="0" thirdDate="2019-03-19" thirdDate-constraint="0" expand="true"/>
     </tasks>
     <resources/>
     <allocations/>

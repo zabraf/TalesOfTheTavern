@@ -6,7 +6,7 @@
  *  Version : 1.0
  *  Fichier : fonctionBD.php
  */
-require_once("./Model/connextionDB.php");
+require_once("./Model/connexionBD.php");
 /// Fonction : Permettant d'insérer un utilisateur dans la base
 /// paramètre : nom de l'utilisateur, email de l'utilisateur, mot de passe hasher
 function AjouterUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse)
@@ -113,7 +113,26 @@ function RetrouverTouteHistoireparUtilisateur($idUtilisateur)
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;
 }
-function RetrouverTouteHistoireTrier($trie)
+function RetrouverTouteFavorisTrierParDate($idUtilisateur)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("SELECT his.idHistoire, titre, his.histoire, urlImageHistoire,urlImageCategorie, nomCategorie, nom, 
+                                              (AVG(style) + AVG(eva.histoire) + AVG(orthographe) + AVG(originalite))/4 as Moyenne 
+                                              FROM estfavoris as fav 
+                                              LEFT JOIN histoire as his ON fav.idHistoire = his.idHistoire 
+                                              LEFT JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur 
+                                              LEFT JOIN categorie as cat ON his.idCategorie = cat.idCategorie 
+                                              LEFT JOIN image as ima ON his.idImage = ima.idImage 
+                                              LEFT JOIN evaluation as eva ON his.idHistoire = eva.idHistoire 
+                                              WHERE fav.idUtilisateur = :idUtilisateur
+                                              GROUP BY idHistoire 
+                                              ORDER By dateCreation DESC");
+    $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
+    $requete->execute();
+    $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+    return $resultat;
+}
+function RetrouverTouteHistoireTrierParDate()
 {
     $connexion = RecupererConnexion();
     $requete = $connexion->prepare("SELECT his.idHistoire, titre, his.histoire, urlImageHistoire,urlImageCategorie, nomCategorie, nom, 
@@ -124,10 +143,45 @@ function RetrouverTouteHistoireTrier($trie)
                                               LEFT JOIN image as ima ON his.idImage = ima.idImage 
                                               LEFT JOIN evaluation as eva ON his.idHistoire = eva.idHistoire 
                                               GROUP BY idHistoire 
-                                              ORDER By :trie DESC");
-    $requete->bindParam(":trie", $trie, PDO::PARAM_STR);
+                                              ORDER By dateCreation DESC");
     $requete->execute();
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;
 }
+function RetrouverTouteFavorisTrierParMoyenne($idUtilisateur)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("SELECT his.idHistoire, titre, his.histoire, urlImageHistoire,urlImageCategorie, nomCategorie, nom, 
+                                              (AVG(style) + AVG(eva.histoire) + AVG(orthographe) + AVG(originalite))/4 as Moyenne 
+                                              FROM estfavoris as fav 
+                                              LEFT JOIN histoire as his ON fav.idHistoire = his.idHistoire 
+                                              LEFT JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur 
+                                              LEFT JOIN categorie as cat ON his.idCategorie = cat.idCategorie 
+                                              LEFT JOIN image as ima ON his.idImage = ima.idImage 
+                                              LEFT JOIN evaluation as eva ON his.idHistoire = eva.idHistoire 
+                                              WHERE fav.idUtilisateur = :idUtilisateur
+                                              GROUP BY idHistoire 
+                                              ORDER By Moyenne DESC");
+    $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
+    $requete->execute();
+    $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+    return $resultat;
+}
+function RetrouverTouteHistoireTrierParMoyenne()
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("SELECT his.idHistoire, titre, his.histoire, urlImageHistoire,urlImageCategorie, nomCategorie, nom, 
+                                              (AVG(style) + AVG(eva.histoire) + AVG(orthographe) + AVG(originalite))/4 as Moyenne 
+                                              FROM histoire as his
+                                              LEFT JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur 
+                                              LEFT JOIN categorie as cat ON his.idCategorie = cat.idCategorie 
+                                              LEFT JOIN image as ima ON his.idImage = ima.idImage 
+                                              LEFT JOIN evaluation as eva ON his.idHistoire = eva.idHistoire 
+                                              GROUP BY idHistoire 
+                                              ORDER By Moyenne DESC");
+    $requete->execute();
+    $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+    return $resultat;
+}
+
 ?>

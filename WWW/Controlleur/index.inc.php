@@ -7,6 +7,7 @@
  *  Fichier : index.inc.php
  */
 $histoires = "";
+$favoris = "";
 if(isset($_GET["ordre"]))
 {
     $get = $_GET["ordre"];
@@ -16,6 +17,11 @@ else
     $get = "default";
 }
 $histoires = RetournerTouteHistoire($get);
+if(isset($_SESSION["utilisateur"]))
+{
+
+    $favoris = RetournerToutFavoris($get,$_SESSION["utilisateur"]);
+}
 
 function afficherHitoires($histoires)
 {

@@ -4,7 +4,7 @@
  *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
  *  date : 04.04.19
  *  Version : 1.0
- *  Fichier : controlleur.php
+ *  Fichier : controlleur.inc.php
  */
 require_once("./Model/fonctionBD.php");
 define("CHARMAX", 8);
@@ -143,15 +143,16 @@ function RetournerTouteHistoire($trie)
             break;
     }
 }
-function RetournerToutFavoris($trie)
+function RetournerToutFavoris($trie,$emailUtilisateur)
 {
+    $idUtilisateur = RetournerUtilisateur($emailUtilisateur)["idUtilisateur"];
     switch ($trie)
     {
         case "note":
-            return RetrouverTouteHistoireTrierParMoyenne();
+            return RetrouverTouteFavorisTrierParMoyenne($idUtilisateur);
             break;
         default:
-            return RetrouverTouteHistoireTrierParDate();
+            return RetrouverTouteFavorisTrierParDate($idUtilisateur);
             break;
     }
 }

@@ -6,10 +6,9 @@
  *  Version : 1.0
  *  Fichier : index.php
  */
-require_once("./Controlleur/controlleur.php");
-require_once("./Controlleur/index.inc.php");
-
 session_start();
+require_once("./Controlleur/controlleur.inc.php");
+require_once("./Controlleur/index.inc.php");
 ?>
 <!doctype html>
 <html lang="fr">
@@ -33,6 +32,21 @@ session_start();
     </div>
 </div>
 <br/>
+<?php
+if (isset($_SESSION["utilisateur"]))
+{
+    if(!empty($favoris) || $favoris = ""){
+        echo "<h1>Mes favoris</h1><div class=\"row\">";
+        afficherHitoires($favoris);
+        echo "</div>";
+    }
+    else{
+        echo "<h1>Vous n'avez pas de favoris</h1>"; //todo ajouter commentaire comment rajouter favoris
+    }
+
+}
+?>
+<h1>Les hitoires</h1>
 <div class="row">
     <?php afficherHitoires($histoires); ?>
 </div>

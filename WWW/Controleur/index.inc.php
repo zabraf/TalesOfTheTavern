@@ -23,7 +23,7 @@ if(isset($_SESSION["utilisateur"]))
     $favoris = RetournerToutFavoris($get,$_SESSION["utilisateur"]);
 }
 
-function afficherHitoires($histoires)
+function afficherHistoires($histoires)
 {
     for($i = 0; $i < count($histoires); $i++)
     {

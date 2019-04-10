@@ -161,7 +161,7 @@ function RetrouverTouteFavorisTrierParMoyenne($idUtilisateur)
                                               LEFT JOIN evaluation as eva ON his.idHistoire = eva.idHistoire 
                                               WHERE fav.idUtilisateur = :idUtilisateur
                                               GROUP BY idHistoire 
-                                              ORDER By Moyenne DESC");
+                                              ORDER By Moyenne ASC");
     $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
     $requete->execute();
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
@@ -178,7 +178,7 @@ function RetrouverTouteHistoireTrierParMoyenne()
                                               LEFT JOIN image as ima ON his.idImage = ima.idImage 
                                               LEFT JOIN evaluation as eva ON his.idHistoire = eva.idHistoire 
                                               GROUP BY idHistoire 
-                                              ORDER By Moyenne DESC");
+                                              ORDER By Moyenne ASC");
     $requete->execute();
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;

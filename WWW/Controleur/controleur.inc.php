@@ -4,7 +4,7 @@
  *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
  *  date : 04.04.19
  *  Version : 1.0
- *  Fichier : controlleur.inc.php
+ *  Fichier : controleur.inc.php
  */
 require_once("./Model/fonctionBD.php");
 define("CHARMAX", 8);

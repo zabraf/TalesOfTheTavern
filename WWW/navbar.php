@@ -34,7 +34,7 @@
                     <a class="nav-link" href="connexion.php">Se connecter<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="creerUnCompte.php">Créer un compte<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="creerCompte.php">Créer un compte<span class="sr-only">(current)</span></a>
                 </li>
                 <?php
             }

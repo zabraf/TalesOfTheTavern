@@ -13,20 +13,8 @@ if(!isset($_SESSION["utilisateur"]))
     exit();
 }
 
-require_once("./Controlleur/controlleur.php");
-$idHistoire = isset($_GET["id"]) ? trim(filter_input(INPUT_GET,'id',FILTER_SANITIZE_NUMBER_INT)): "";
-$histoire = RetournerHistoireParId($idHistoire);
-if ($histoire === null || strtolower($histoire["email"]) != strtolower($_SESSION["utilisateur"]))
-{
-   header("Location: compte.php");
-   exit();
-}
-if(isset($_POST["supprimer"]))
-{
-    SuppprimerHisoireParId($idHistoire);
-    header("Location: compte.php");
-    exit();
-}
+require_once("./Controleur/controleur.inc.php");
+require_once("./Controleur/supprimer.inc.php");
 ?>
 <!doctype html>
 <html lang="fr">

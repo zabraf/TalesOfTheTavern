@@ -7,8 +7,8 @@
  *  Fichier : index.php
  */
 session_start();
-require_once("./Controlleur/controlleur.inc.php");
-require_once("./Controlleur/index.inc.php");
+require_once("./Controleur/controleur.inc.php");
+require_once("./Controleur/index.inc.php");
 ?>
 <!doctype html>
 <html lang="fr">
@@ -37,7 +37,7 @@ if (isset($_SESSION["utilisateur"]))
 {
     if(!empty($favoris) || $favoris = ""){
         echo "<h1>Mes favoris</h1><div class=\"row\">";
-        afficherHitoires($favoris);
+        afficherHistoires($favoris);
         echo "</div>";
     }
     else{
@@ -46,9 +46,9 @@ if (isset($_SESSION["utilisateur"]))
 
 }
 ?>
-<h1>Les hitoires</h1>
+<h1>Les histoires</h1>
 <div class="row">
-    <?php afficherHitoires($histoires); ?>
+    <?php afficherHistoires($histoires); ?>
 </div>
 
 <!--bootstrap-->

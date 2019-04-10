@@ -13,8 +13,8 @@ if(!isset($_SESSION["utilisateur"]))
     exit();
 }
 $erreurMessage = "";
-require_once("./Controlleur/controlleur.php");
-require_once("./Controlleur/compte.inc.php");
+require_once("./Controleur/controleur.inc.php");
+require_once("./Controleur/compte.inc.php");
 ?>
 <!doctype html>
 <html lang="fr">
@@ -62,7 +62,7 @@ require_once("./Controlleur/compte.inc.php");
 </div>
 <div class="container mb-5">
     <h1>Mes histoires</h1>
-    <a class="col-6 btn btn-primary btn-lg" href="histoire.php" role="button">Ajouter une Histoire</a>
+    <a class="col-6 btn btn-primary btn-lg" href="modifierHistoire.php" role="button">Ajouter une Histoire</a>
 </div>
 <div class="row">
     <?php

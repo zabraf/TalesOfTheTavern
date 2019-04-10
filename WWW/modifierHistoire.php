@@ -13,8 +13,8 @@ if(!isset($_SESSION["utilisateur"]))
     header("Location: index.php");
     exit();
 }
-require_once("./Controlleur/controlleur.php");
-require_once("./Controlleur/ModifierHistoire.inc.php");
+require_once("./Controleur/controleur.inc.php");
+require_once("./Controleur/modifierHistoire.inc.php");
 
 ?>
 <!doctype html>

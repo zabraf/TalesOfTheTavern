@@ -12,20 +12,8 @@ if(isset($_SESSION["utilisateur"]))
     header("Location: index.php");
     exit();
 }
-require_once("./Controlleur/controlleur.php");
-$erreurMessage = "";
-$email = isset($_POST["email"]) ? trim(filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL)): "";
-$mdp = isset($_POST["motDePasse"]) ? trim(filter_input(INPUT_POST,'motDePasse',FILTER_SANITIZE_STRING)): "";
-if( $email != "" && $mdp != "") {
-    if (UtilisateurExisteEtMotDePasseJuste($email, $mdp)) {
-        //Mets l’email dans la session et le redirige à la page index.php
-        $_SESSION["utilisateur"] = $email;
-            header("Location: index.php");
-            exit();
-    } else {
-        $erreurMessage = "Le mot de passe ou l'Email est faux";
-    }
-}
+require_once("./Controleur/controleur.inc.php");
+require_once("./Controleur/connexion.inc.php");
 ?>
 <!doctype html>
 <html lang="fr">

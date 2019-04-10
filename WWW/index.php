@@ -20,15 +20,21 @@ session_start();
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css"  href="MyCss.css">
     <title>Tales of the tavern</title>
 </head>
 <body>
 <?php include_once("./navbar.php");?>
 <h1>Tales of the tavern</h1>
-<div class="row">
-<?php afficherHitoires($histoires); ?>
+<div class="container col-sm-12 col-md-6">
+    <div class="row">
+        <a class=" col-6 btn btn-primary btn-lg" href="index.php" role="button">Trier par date</a>
+        <a class=" col-6 btn btn-primary btn-lg" href="index.php?ordre=note" role="button">Trier par moyenne</a>
+    </div>
 </div>
+<br/>
+<div class="row">
+    <?php afficherHitoires($histoires); ?>
 </div>
 
 <!--bootstrap-->

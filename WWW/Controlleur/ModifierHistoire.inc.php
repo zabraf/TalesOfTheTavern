@@ -4,7 +4,7 @@
  *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
  *  date : 08.04.19
  *  Version : 1.0
- *  Fichier : histoire.inc.php
+ *  Fichier : ModifierHistoire.inc.php
  */
 $titreHistoire = "";
 $chaineHistoire = "";

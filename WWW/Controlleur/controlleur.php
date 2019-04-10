@@ -83,7 +83,7 @@ function AfficherHistoire($idHistoire,$urlImage,$titre,$auteur,$catégorie,$hist
         . '<p class="lead"> ' . $catégorie . '</p>'
         . '<p>'. substr($histoire,0,140) . "..." . '</p>';
     if($afficherBoutton) {
-        $histoireHTML .= '<div class="row"><a class="col-6 btn btn-primary btn-lg" href="histoire.php?id=' . $idHistoire . '" role="button">Modifier</a>'
+        $histoireHTML .= '<div class="row"><a class="col-6 btn btn-primary btn-lg" href="modifierHistoire.php?id=' . $idHistoire . '" role="button">Modifier</a>'
             . '<a class=" col-6 btn btn-danger btn-lg" href="supprimer.php?id=' . $idHistoire . '" role="button">Supprimer</a></div>';
     }
     $histoireHTML .= '</div>';
@@ -135,11 +135,23 @@ function RetournerTouteHistoire($trie)
 {
     switch ($trie)
     {
-        case "Moyenne":
-            return RetrouverTouteHistoireTrier($trie);
+        case "note":
+            return RetrouverTouteHistoireTrierParMoyenne();
             break;
         default:
-            return RetrouverTouteHistoireTrier("dateCreation");
+            return RetrouverTouteHistoireTrierParDate();
+            break;
+    }
+}
+function RetournerToutFavoris($trie)
+{
+    switch ($trie)
+    {
+        case "note":
+            return RetrouverTouteHistoireTrierParMoyenne();
+            break;
+        default:
+            return RetrouverTouteHistoireTrierParDate();
             break;
     }
 }

@@ -16,7 +16,6 @@ else
     $get = "default";
 }
 $histoires = RetournerTouteHistoire($get);
-var_dump($histoires);
 
 function afficherHitoires($histoires)
 {

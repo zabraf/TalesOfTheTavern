@@ -4,7 +4,7 @@
  *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
  *  date : 08.04.19
  *  Version : 1.0
- *  Fichier : histoire.php
+ *  Fichier : modifierHistoire.php
  */
 
 session_start();
@@ -14,7 +14,7 @@ if(!isset($_SESSION["utilisateur"]))
     exit();
 }
 require_once("./Controlleur/controlleur.php");
-require_once("./Controlleur/histoire.inc.php");
+require_once("./Controlleur/ModifierHistoire.inc.php");
 
 ?>
 <!doctype html>
@@ -26,7 +26,6 @@ require_once("./Controlleur/histoire.inc.php");
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css"  href="MyCss.css">
     <title>Tales of the tavern</title>
 </head>
 <body>

@@ -1,7 +1,7 @@
 <?php
 /*  auteur : Raphael Lopes
  *  Projet : Tales of the Tavern
- *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
+ *  description : Site internet permettant de stocker des histoires et que les autres utilisateurs puissent les noter
  *  date : 05.04.19
  *  Version : 1.0
  *  Fichier : supprimer.php
@@ -13,8 +13,8 @@ if(!isset($_SESSION["utilisateur"]))
     exit();
 }
 
-require_once("./Controleur/controleur.inc.php");
-require_once("./Controleur/supprimer.inc.php");
+require_once("../Controleur/controleur.inc.php");
+require_once("../Controleur/supprimer.inc.php");
 ?>
 <!doctype html>
 <html lang="fr">

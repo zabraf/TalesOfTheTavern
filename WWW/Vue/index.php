@@ -1,19 +1,14 @@
 <?php
 /*  auteur : Raphael Lopes
  *  Projet : Tales of the Tavern
- *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
+ *  description : Site internet permettant de stocker des histoires et que les autres utilisateurs puissent les noter
  *  date : 04.04.19
  *  Version : 1.0
- *  Fichier : connexion.php
+ *  Fichier : index.php
  */
 session_start();
-if(isset($_SESSION["utilisateur"]))
-{
-    header("Location: index.php");
-    exit();
-}
-require_once("./Controleur/controleur.inc.php");
-require_once("./Controleur/connexion.inc.php");
+require_once("../Controleur/controleur.inc.php");
+require_once("../Controleur/index.inc.php");
 ?>
 <!doctype html>
 <html lang="fr">
@@ -24,27 +19,35 @@ require_once("./Controleur/connexion.inc.php");
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css"  href="MyCss.css">
     <title>Tales of the tavern</title>
 </head>
 <body>
-<?php include_once("./navbar.php");?>
+<?php include_once("navbar.php");?>
+<h1>Tales of the tavern</h1>
+<div class="container col-sm-12 col-md-6">
+    <div class="row">
+        <a class=" col-6 btn btn-primary btn-lg" href="index.php" role="button">Trier par date</a>
+        <a class=" col-6 btn btn-primary btn-lg" href="index.php?ordre=note" role="button">Trier par moyenne</a>
+    </div>
+</div>
 <br/>
-<div class="container col-sm-12 col-md-6 c border-1">
-    <form action="#" method="post">
-        <form action="#" method="post">
-            <div class="form-group">
-                <label>E-mail</label>
-                <input type="email" class="form-control" name="email" value="<?= $email ?>" required>
-            </div>
-            <div class="form-group">
-                <label>Mot de passe</label>
-                <input type="password" class="form-control" name="motDePasse" required>
-            </div>
-            <label style="color: red"><?= $erreurMessage ?></label>
-            <br/>
-            <button type="submit" class="btn btn-primary">Connexion</button>
-        </form>
+<?php
+if (isset($_SESSION["utilisateur"])){
+    if(!empty($favoris) || $favoris = ""){
+        echo "<h1>Mes favoris</h1><div class=\"row\">";
+        afficherHistoires($favoris);
+        echo "</div>";
+    }
+    else{
+        echo "<h4>Vous n'avez pas de favoris</h4>";
+    }
+
+}
+?>
+<h1>Les histoires</h1>
+<div class="row">
+    <?php afficherHistoires($histoires); ?>
 </div>
 
 <!--bootstrap-->

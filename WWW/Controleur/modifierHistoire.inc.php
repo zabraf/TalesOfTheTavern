@@ -1,7 +1,7 @@
 <?php
 /*  auteur : Raphael Lopes
  *  Projet : Tales of the Tavern
- *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
+ *  description : Site internet permettant de stocker des histoires et que les autres utilisateurs puissent les noter
  *  date : 08.04.19
  *  Version : 1.0
  *  Fichier : modifierHistoire.inc.php
@@ -53,24 +53,25 @@ if($titre != "" && $histoire != "" && $categorie != "") {
             $erreurMessage = "Ce fichier fait plus que 5 Mb. Il doit être moins ou égal à 5 Mb.";
         }
         if ($erreurMessage == "" && $_FILES["image"]["error"] == 0) {
-            move_uploaded_file($NomTemporaire, $cheminUpload);
-            $idImage = InsererImage($cheminUpload);
+            var_dump($cheminUpload);
+           move_uploaded_file($NomTemporaire, $cheminUpload);
+           $idImage = InsererImage($cheminUpload);
         }
     }
 
     //TODO Modifier gestion d'erreur
     if(isset($_GET["id"]))
     {
-        ModifierHitoire($idHistoire,$titre,$histoire,$idImage,$categorie);
+       ModifierHitoire($idHistoire,$titre,$histoire,$idImage,$categorie);
     }
     else
     {
-         InsererHistoire($titre,$histoire,$idImage,$categorie,$_SESSION["utilisateur"]);
+        InsererHistoire($titre,$histoire,$idImage,$categorie,$_SESSION["utilisateur"]);
     }
     /*if($erreurMessage == "")
     {*/
-        header("Location: compte.php");
-        exit();
+       header("Location: compte.php");
+       exit();
     //}
 
 

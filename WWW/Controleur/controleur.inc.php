@@ -1,12 +1,12 @@
 <?php
 /*  auteur : Raphael Lopes
  *  Projet : Tales of the Tavern
- *  description : Site internet permettant de stocker des histoires et que les autres puissent les noter
+ *  description : Site internet permettant de stocker des histoires et que les autres utilisateurs puissent les noter
  *  date : 04.04.19
  *  Version : 1.0
  *  Fichier : controleur.inc.php
  */
-require_once("./Model/fonctionBD.php");
+require_once("../Modele/fonctionBD.php");
 define("CHARMAX", 8);
 /// Fonction : Permettant d'insérer un utilisateur en vérifiant qu'il n'existe pas dans la base de données et que les 2 mot de passe son pareille
 /// paramètre : nom de l'utilisateur, email de l'utilisateur, mot de passe , Confirmation du mot de passe
@@ -77,7 +77,7 @@ function RetournerTouteLesCategories()
 function AfficherHistoire($idHistoire,$urlImage,$titre,$auteur,$catégorie,$histoire,$afficherBoutton)
 {
     $histoireHTML = '<div class="card col-md-12 col-lg-4 mb-3">'
-        . '<img class="card-img-top" src="' . $urlImage . '" alt="Image de l\'histoire">'
+        . '<img class="card-img-top" src="../' . $urlImage . '" alt="Image de l\'histoire">'
         . '<h1 class="display-4">' . $titre . '</h1>'
         . '<p class="lead"> ' . $auteur . '</p>'
         . '<p class="lead"> ' . $catégorie . '</p>'
@@ -159,4 +159,26 @@ function RetournerToutFavoris($trie,$emailUtilisateur)
 function SuppprimerHisoireParId($idHistoire)
 {
     SupprimerHistoire($idHistoire);
+}
+function InsererEvaluation($noteStyle,$noteHistoire,$noteOrthographe,$noteOriginialite,$idHistoire)
+{
+    AjouterEvaluation($noteStyle, $noteHistoire,$noteOrthographe,$noteOriginialite,$idHistoire);
+    SupprimerHistoire($idHistoire);
+}
+function AjouterFavoris($emailUtilisateur,$idHitoire)
+{
+    //TODO
+}
+function RetournerMoyenneUtilisateur($emailUtilisateur)
+{
+     $idUtilisateur = RetournerUtilisateur($emailUtilisateur)["idUtilisateur"];
+     $histoires =  RetrouverTouteHistoireparUtilisateur($idUtilisateur);
+     $sommeMoyenne = 0;
+     $cptHistoires = 0;
+    for($i = 0; $i < count($histoires); $i++)
+    {
+        $sommeMoyenne += $histoires[$i]["moyenne"];
+        $cptHistoires += 1;
+    }
+    return $sommeMoyenne / $cptHistoires;
 }

@@ -200,4 +200,30 @@ function AjouterEvaluation($noteStyle, $noteHistoire,$noteOrthographe,$noteOrigi
     $requete->bindParam(":idHistoire", $idHistoire, PDO::PARAM_INT);
     $requete->execute();
 }
-?>
+function AjouterFavoris($idUtilisateur,$idHistoire)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("INSERT INTO estfavoris(idHistoire, idUtilisateur) VALUES (:idHistoire,:idUtilisateur)");
+    $requete->bindParam(":idHistoire", $idHistoire, PDO::PARAM_INT);
+    $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
+    $requete->execute();
+}
+function SupprimerFavoris($idUtilisateur,$idHistoire)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("DELETE FROM estfavoris WHERE idHistoire = :idHistoire AND idUtilisateur = :idUtilisateur");
+    $requete->bindParam(":idHistoire", $idHistoire, PDO::PARAM_INT);
+    $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
+    $requete->execute();
+}
+function RetrouverFavoris($idUtilisateur,$idHistoire)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("SELECT * FROM estfavoris WHERE idHistoire = :idHistoire AND idUtilisateur = :idUtilisateur");
+    $requete->bindParam(":idHistoire", $idHistoire, PDO::PARAM_INT);
+    $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
+    $requete->execute();
+    $resultat = $requete->fetch(PDO::FETCH_ASSOC);
+    return $resultat;
+}
+    ?>

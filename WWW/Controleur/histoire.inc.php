@@ -17,6 +17,24 @@ $noteStyle = isset($_POST["noteStyle"]) ? trim(filter_input(INPUT_POST,'noteStyl
 $noteHistoire = isset($_POST["noteHistoire"]) ? trim(filter_input(INPUT_POST,'noteHistoire',FILTER_SANITIZE_NUMBER_INT)): "";
 $noteOrthographe = isset($_POST["noteOrthographe"]) ? trim(filter_input(INPUT_POST,'noteOrthographe',FILTER_SANITIZE_NUMBER_INT)): "";
 $noteOriginialite = isset($_POST["noteOriginialite"]) ? trim(filter_input(INPUT_POST,'noteOriginialite',FILTER_SANITIZE_NUMBER_INT)): "";
+
+if(isset($_SESSION["utilisateur"])) {
+    if(isset($_POST["favoris"])) {
+        if (EstFavoris($_SESSION["utilisateur"], $idHistoire)) {
+            SupprimerFavorisParId($_SESSION["utilisateur"], $idHistoire);
+        } else {
+            InsererFavoris($_SESSION["utilisateur"], $idHistoire);
+        }
+    }
+    if(EstFavoris($_SESSION["utilisateur"],$idHistoire))
+    {
+        $buttonText = "Supprimer aux favoris";
+    }
+    else{
+        $buttonText = "Ajouter aux favoris";
+    }
+}
+
 if($noteStyle != "" && $noteHistoire != "" && $noteOrthographe != "" && $noteOriginialite != "" && !isset($_POST["favoris"]))
 {
     InsererEvaluation($noteStyle,$noteHistoire,$noteOrthographe,$noteOriginialite,$idHistoire);
@@ -31,17 +49,12 @@ else{
     $urlImage = $histoire["urlImageHistoire"];
 }
 $titre = $histoire["titre"];
-$moyenneHistoire = $histoire["moyenne"];
-if($moyenneHistoire == null)
-{
-    $moyenneHistoire = 0;
-}
-$moyenneHistoire = $histoire["moyenne"];
+$moyenneHistoire = round($histoire["moyenne"],1);
 $auteur = $histoire["nom"];
-$moyenneAuteur = RetournerMoyenneUtilisateur($_SESSION["utilisateur"]);
+$moyenneAuteur = RetournerMoyenneUtilisateur($histoire["email"]);
 $categorie = $histoire["nomCategorie"];
 $histoire = $histoire["histoire"];
-$buttonText = "Ajouter au favoris";
+
 
 
 function AfficherNotation()

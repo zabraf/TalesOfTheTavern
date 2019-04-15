@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2019-03-19" view-index="0" gantt-divider-location="605" resource-divider-location="300" version="2.8.10" locale="fr">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2019-03-13" view-index="0" gantt-divider-location="605" resource-divider-location="300" version="2.8.10" locale="fr">
     <description/>
     <view zooming-state="default:2" id="gantt-chart">
-        <field id="tpd3" name="Nom" width="305" order="0"/>
-        <field id="tpd4" name="Date de début" width="130" order="1"/>
-        <field id="tpd5" name="Date de fin" width="166" order="2"/>
+        <field id="tpd3" name="Nom" width="297" order="0"/>
+        <field id="tpd4" name="Date de début" width="127" order="1"/>
+        <field id="tpd5" name="Date de fin" width="162" order="2"/>
     </view>
     <view id="resource-table">
         <field id="0" name="Nom" width="210" order="0"/>
@@ -69,12 +69,33 @@
         </task>
         <task id="78" name="Documentation" color="#8cb6ce" meeting="false" start="2019-04-10" duration="1" complete="0" thirdDate="2019-03-19" thirdDate-constraint="0" expand="true"/>
         <task id="108" name="La liste d’histoires préférées est affichée" color="#8cb6ce" meeting="false" start="2019-04-10" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true">
+            <depend id="118" type="2" difference="0" hardness="Strong"/>
             <task id="110" name="Analyse" color="#8cb6ce" meeting="false" start="2019-04-10" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true"/>
             <task id="112" name="Implémentation" color="#8cb6ce" meeting="false" start="2019-04-10" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true"/>
             <task id="114" name="Test" color="#8cb6ce" meeting="false" start="2019-04-10" duration="1" complete="0" thirdDate="2019-04-09" thirdDate-constraint="0" expand="true"/>
             <task id="116" name="Documentation" color="#8cb6ce" meeting="false" start="2019-04-10" duration="1" complete="0" thirdDate="2019-03-19" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="61" name="Documentation" color="#8cb6ce" meeting="false" start="2019-04-02" duration="7" complete="0" thirdDate="2019-03-19" thirdDate-constraint="0" expand="true"/>
+        <task id="118" name="Les fonctionnalités d’évaluation des histoires sont implémentées" color="#8cb6ce" meeting="false" start="2019-04-11" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true">
+            <task id="120" name="Analyse" color="#8cb6ce" meeting="false" start="2019-04-11" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true"/>
+            <task id="122" name="Implémentation" color="#8cb6ce" meeting="false" start="2019-04-11" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true"/>
+            <task id="124" name="Test" color="#8cb6ce" meeting="false" start="2019-04-11" duration="1" complete="0" thirdDate="2019-04-09" thirdDate-constraint="0" expand="true"/>
+            <task id="126" name="Documentation" color="#8cb6ce" meeting="false" start="2019-04-11" duration="1" complete="0" thirdDate="2019-03-19" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="133" name="Une nouvelle évaluation met à jour les moyennes de l’histoire et de son auteur" color="#8cb6ce" meeting="false" start="2019-04-11" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true">
+            <depend id="150" type="2" difference="0" hardness="Strong"/>
+            <task id="135" name="Analyse" color="#8cb6ce" meeting="false" start="2019-04-11" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true"/>
+            <task id="137" name="Implémentation" color="#8cb6ce" meeting="false" start="2019-04-11" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true"/>
+            <task id="139" name="Test" color="#8cb6ce" meeting="false" start="2019-04-11" duration="1" complete="0" thirdDate="2019-04-09" thirdDate-constraint="0" expand="true"/>
+            <task id="141" name="Documentation" color="#8cb6ce" meeting="false" start="2019-04-11" duration="1" complete="0" thirdDate="2019-03-19" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="150" name="Un utilisateur peut rechercher des histoires par leurs titres ou auteurs" color="#8cb6ce" meeting="false" start="2019-04-12" duration="2" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true">
+            <task id="152" name="Analyse" color="#8cb6ce" meeting="false" start="2019-04-12" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true"/>
+            <task id="154" name="Implémentation" color="#8cb6ce" meeting="false" start="2019-04-12" duration="1" complete="0" thirdDate="2019-04-03" thirdDate-constraint="0" expand="true"/>
+            <task id="156" name="Test" color="#8cb6ce" meeting="false" start="2019-04-12" duration="1" complete="0" thirdDate="2019-04-09" thirdDate-constraint="0" expand="true"/>
+            <task id="158" name="Documentation" color="#8cb6ce" meeting="false" start="2019-04-15" duration="1" complete="0" thirdDate="2019-03-19" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="163" name="Finalisation Documentation" color="#8cb6ce" meeting="false" start="2019-04-15" duration="1" complete="0" thirdDate="2019-03-19" thirdDate-constraint="0" expand="true"/>
+        <task id="61" name="Documentation" color="#8cb6ce" meeting="false" start="2019-04-02" duration="12" complete="0" thirdDate="2019-03-19" thirdDate-constraint="0" expand="true"/>
     </tasks>
     <resources/>
     <allocations/>

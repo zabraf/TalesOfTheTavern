@@ -61,8 +61,10 @@ require_once("../Controleur/compte.inc.php");
     </form>
 </div>
 <div class="container col-12">
-    <h1>Mes histoires</h1>
-    <a class="col-6 btn btn-primary btn-lg" href="modifierHistoire.php" role="button">Ajouter une Histoire</a>
+    <h1>Mes histoires <a class="col-6 btn btn-primary" href="modifierHistoire.php" role="button">+</a></h1>
+    <div >
+
+    </div>
 </div>
 <div class="row">0
     <?php

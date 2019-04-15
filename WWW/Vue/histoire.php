@@ -34,10 +34,10 @@ require_once("../Controleur/histoire.inc.php");
     <div class="card col-md-12">
         <?php
         echo '<img class="card-img-top" src="../' . $urlImage . '" alt="Image de l\'histoire">';
-        echo '<h1 class="display-4">' . $titre . ' ( moyenne de l\'histoire : ' . $moyenneHistoire . ')</h1>';
-        echo '<p class="lead"> ' . $auteur . ' ( moyenne de l\'auteur : ' . $moyenneAuteur . ')</p>';
+        echo '<h1 class="display-4">' . $titre . ' (note : ' . $moyenneHistoire .')</h1>';
+        echo '<p class="lead"> ' . $auteur . ' (moyenne de l\'auteur : ' . $moyenneAuteur .')</p>';
         echo '<p class="lead"> ' . $categorie . '</p>';
-        echo '<p>'. $histoire .  '</p>';
+        echo '<p>'. nl2br($histoire) .  '</p>';
         ?>
 
         <form action="#" method="post">

@@ -74,15 +74,15 @@ function RetournerTouteLesCategories()
     $catégorie = RetrouverTouteLesCatégories();
     return $catégorie;
 }
-function AfficherHistoire($idHistoire,$urlImage,$titre,$auteur,$catégorie,$histoire,$afficherBoutton)
+function AfficherHistoire($idHistoire,$urlImage,$titre,$auteur,$catégorie,$histoire,$afficherBouton)
 {
-    $histoireHTML = '<div class="card col-md-12 col-lg-4 mb-3">'
+    $histoireHTML = '<a style="color:inherit; text-decoration:none;" href="histoire.php?id=' . $idHistoire . '"><div class="card col-md-12 col-lg-4 mb-3">'
         . '<img class="card-img-top" src="../' . $urlImage . '" alt="Image de l\'histoire">'
         . '<h1 class="display-4">' . $titre . '</h1>'
         . '<p class="lead"> ' . $auteur . '</p>'
         . '<p class="lead"> ' . $catégorie . '</p>'
-        . '<p>'. substr($histoire,0,140) . "..." . '</p>';
-    if($afficherBoutton) {
+        . '<p>'. substr($histoire,0,140) . "..." . '</p></a>';
+    if($afficherBouton) {
         $histoireHTML .= '<div class="row"><a class="col-6 btn btn-primary btn-lg" href="modifierHistoire.php?id=' . $idHistoire . '" role="button">Modifier</a>'
             . '<a class=" col-6 btn btn-danger btn-lg" href="supprimer.php?id=' . $idHistoire . '" role="button">Supprimer</a></div>';
     }
@@ -91,7 +91,7 @@ function AfficherHistoire($idHistoire,$urlImage,$titre,$auteur,$catégorie,$hist
 }
 function UtilisateurExiste($emailUtilisateur)
 {
-    $utilisateur = RetournerUtilisateur($emailUtilisateur);
+    $utilisateur = RetrouverUtilisateur($emailUtilisateur);
     if($utilisateur != null)
     {
         return true;
@@ -104,7 +104,7 @@ function UtilisateurExiste($emailUtilisateur)
 /// retourne : TRUE = l’utilisateur existe et le mot de passe est juste, FALSE = si le mot de passe est faux ou l'utilisateur n'existe pas
 function  UtilisateurExisteEtMotDePasseJuste($emailUtilisateur,$motDePasse)
 {
-    $utilisateur = RetournerUtilisateur($emailUtilisateur);
+    $utilisateur = RetrouverUtilisateur($emailUtilisateur);
     if(UtilisateurExiste($emailUtilisateur))
     {
         if(hash("sha256",$motDePasse )== $utilisateur["motDePasse"])
@@ -118,7 +118,7 @@ function InsererImage($urlImage)
     return AjouterImage($urlImage);
 }
 function InsererHistoire($titre,$histoire,$idImage,$idCatégorie,$emailUtilisateur){
-    $idUtilisateur =  $utilisateur = RetournerUtilisateur($emailUtilisateur)["idUtilisateur"];
+    $idUtilisateur =  $utilisateur = RetrouverUtilisateur($emailUtilisateur)["idUtilisateur"];
     AjouterHitoire($titre,$histoire,$idImage,$idCatégorie,$idUtilisateur);
 }
 function RetournerHistoireParId($idHistoire)
@@ -128,7 +128,7 @@ function RetournerHistoireParId($idHistoire)
 }
 function RetournerTouteHistoireCreerParUnUtilisateur($emailUtilisateur)
 {
-    $idUtilisateur = RetournerUtilisateur($emailUtilisateur)["idUtilisateur"];
+    $idUtilisateur = RetrouverUtilisateur($emailUtilisateur)["idUtilisateur"];
     return RetrouverTouteHistoireparUtilisateur($idUtilisateur);
 }
 function RetournerTouteHistoire($trie)
@@ -145,7 +145,7 @@ function RetournerTouteHistoire($trie)
 }
 function RetournerToutFavoris($trie,$emailUtilisateur)
 {
-    $idUtilisateur = RetournerUtilisateur($emailUtilisateur)["idUtilisateur"];
+    $idUtilisateur = RetrouverUtilisateur($emailUtilisateur)["idUtilisateur"];
     switch ($trie)
     {
         case "note":
@@ -165,13 +165,30 @@ function InsererEvaluation($noteStyle,$noteHistoire,$noteOrthographe,$noteOrigin
     AjouterEvaluation($noteStyle, $noteHistoire,$noteOrthographe,$noteOriginialite,$idHistoire);
     SupprimerHistoire($idHistoire);
 }
-function AjouterFavoris($emailUtilisateur,$idHitoire)
+function InsererFavoris($emailUtilisateur,$idHistoire)
 {
-    //TODO
+    $idUtilisateur = RetrouverUtilisateur($emailUtilisateur)["idUtilisateur"];
+    AjouterFavoris($idUtilisateur,$idHistoire);
+}
+function SupprimerFavorisParId($emailUtilisateur,$idHistoire)
+{
+    $idUtilisateur = RetrouverUtilisateur($emailUtilisateur)["idUtilisateur"];
+    SupprimerFavoris($idUtilisateur,$idHistoire);
+}
+function EstFavoris($emailUtilisateur,$idHistoire)
+{
+    $idUtilisateur = RetrouverUtilisateur($emailUtilisateur)["idUtilisateur"];
+    if(RetrouverFavoris($idUtilisateur,$idHistoire) !== false)
+    {
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 function RetournerMoyenneUtilisateur($emailUtilisateur)
 {
-     $idUtilisateur = RetournerUtilisateur($emailUtilisateur)["idUtilisateur"];
+     $idUtilisateur = RetrouverUtilisateur($emailUtilisateur)["idUtilisateur"];
      $histoires =  RetrouverTouteHistoireparUtilisateur($idUtilisateur);
      $sommeMoyenne = 0;
      $cptHistoires = 0;
@@ -180,5 +197,9 @@ function RetournerMoyenneUtilisateur($emailUtilisateur)
         $sommeMoyenne += $histoires[$i]["moyenne"];
         $cptHistoires += 1;
     }
-    return $sommeMoyenne / $cptHistoires;
+    if($cptHistoires == 0)
+    {
+       return 0;
+    }
+    return round($sommeMoyenne / $cptHistoires,1);
 }

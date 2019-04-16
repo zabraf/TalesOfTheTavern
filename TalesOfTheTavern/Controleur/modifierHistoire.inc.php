@@ -43,8 +43,8 @@ if($titre != "" && $histoire != "" && $categorie != "") {
         $typeDeFichier = $_FILES['image']['type'];
         $extension = explode('.', $nomFichier);
         $extension = strtolower(end($extension));
-
-        $cheminUpload =  $Dossier . basename(uniqid() . $nomFichier);
+        $nomFichier = uniqid() . $nomFichier;
+        $cheminUpload =  $Dossier . basename($nomFichier);
         if (!in_array($extension, $extensionsAccepter)) {
             $erreurMessage = "ce type d'extension n'est pas accepté (jpeg, jpg, png)";
         }
@@ -55,7 +55,7 @@ if($titre != "" && $histoire != "" && $categorie != "") {
         if ($erreurMessage == "" && $_FILES["image"]["error"] == 0) {
             var_dump($cheminUpload);
            move_uploaded_file($NomTemporaire, $cheminUpload);
-           $idImage = InsererImage($cheminUpload);
+           $idImage = InsererImage($nomFichier);
         }
     }
 

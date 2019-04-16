@@ -49,13 +49,15 @@ else{
     $urlImage = $histoire["urlImageHistoire"];
 }
 $titre = $histoire["titre"];
-$moyenneHistoire = round($histoire["moyenne"],1);
+$moyenneGlobalHistoire = round($histoire["moyenne"],1);
 $auteur = $histoire["nom"];
 $moyenneAuteur = RetournerMoyenneUtilisateur($histoire["email"]);
 $categorie = $histoire["nomCategorie"];
-$histoire = $histoire["histoire"];
-
-
+$texteHistoire = $histoire["histoire"];
+$moyenneStyle = round($histoire["moyenneStyle"],1);
+$moyenneHistoire = round($histoire["moyenneHistoire"],1);
+$moyenneOrthographe = round($histoire["moyenneOrthographe"],1);
+$moyenneOriginalite =round($histoire["moyenneOriginalite"],1);
 
 function AfficherNotation()
 {

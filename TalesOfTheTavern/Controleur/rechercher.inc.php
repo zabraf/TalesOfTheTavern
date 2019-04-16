@@ -6,22 +6,17 @@
  *  Version : 1.0
  *  Fichier : rechercher.inc.php
  */
-$histoires = "";
-$favoris = "";
-if(isset($_GET["ordre"]))
-{
-    $get = $_GET["ordre"];
-}
-else
-{
-    $get = "default";
-}
-$histoires =  ($get);
-if(isset($_SESSION["utilisateur"]))
-{
 
-    $favoris = RetournerToutFavoris($get,$_SESSION["utilisateur"]);
+$histoiresParTitre = "";
+$histoiresParAuteur = "";
+$recherche = isset($_GET["recherche"]) ? trim(filter_input(INPUT_GET,'recherche',FILTER_SANITIZE_STRING)): "";
+if($recherche == "")
+{
+   header("location: index.php");
+   exit();
 }
+$histoiresParTitre = RetournerHistoireParTitre($recherche);
+$histoiresParAuteur = RetournerHistoireParNom($recherche);
 
 function afficherHistoires($histoires)
 {

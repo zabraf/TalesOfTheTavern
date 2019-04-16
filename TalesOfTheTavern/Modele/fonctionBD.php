@@ -18,7 +18,24 @@ function AjouterUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse)
     $requete->bindParam(":motDePasse", $motDePasse, PDO::PARAM_STR);
     $requete->execute();
 }
-function ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$nouvelEmail,$motDePasse)
+function ModifierUtilisateurNom($emailUtilisateur,$nomUtilisateur)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("UPDATE utilisateur SET nom=:nom WHERE email=:email");
+    $requete->bindParam(":nom", $nomUtilisateur, PDO::PARAM_STR);
+    $requete->bindParam(":email", $emailUtilisateur, PDO::PARAM_STR);
+    $requete->execute();
+}
+function ModifierUtilisateurNomEmail($emailUtilisateur,$nomUtilisateur,$nouvelEmail)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("UPDATE utilisateur SET nom=:nom,email=:nouvelEmail WHERE email=:email");
+    $requete->bindParam(":nom", $nomUtilisateur, PDO::PARAM_STR);
+    $requete->bindParam(":nouvelEmail", $nouvelEmail, PDO::PARAM_STR);
+    $requete->bindParam(":email", $emailUtilisateur, PDO::PARAM_STR);
+    $requete->execute();
+}
+function ModifierUtilisateurNomEmailMotDePasse($emailUtilisateur,$nomUtilisateur,$nouvelEmail,$motDePasse)
 {
     $connexion = RecupererConnexion();
     $requete = $connexion->prepare("UPDATE utilisateur SET nom=:nom,email=:nouvelEmail,motDePasse=:motDePasse WHERE email=:email");
@@ -89,7 +106,11 @@ function RetrouverHistoireParId($idHistoire)
 {
     $connexion = RecupererConnexion();
     $requete = $connexion->prepare("SELECT his.idHistoire, titre, his.histoire, his.idImage, his.idCategorie, email, urlImageHistoire,urlImageCategorie, nomCategorie, nom,
-                                             (AVG(style) + AVG(eva.histoire) + AVG(orthographe) + AVG(originalite))/4 as moyenne
+                                             (AVG(style) + AVG(eva.histoire) + AVG(orthographe) + AVG(originalite))/4 as moyenne,
+                                             AVG(style) as moyenneStyle,
+                                             AVG(eva.histoire) as moyenneHistoire,
+                                             AVG(orthographe) as moyenneOrthographe,
+                                             AVG(originalite) as moyenneOriginalite
                                              FROM histoire as his
                                              LEFT JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur
                                              LEFT JOIN categorie as cat ON his.idCategorie = cat.idCategorie
@@ -102,7 +123,7 @@ function RetrouverHistoireParId($idHistoire)
     $resultat = $requete->fetch(PDO::FETCH_ASSOC);
     return $resultat;
 }
-function RetrouverTouteHistoireparUtilisateur($idUtilisateur)
+function RetrouverTouteHistoireParUtilisateur($idUtilisateur)
 {
     $connexion = RecupererConnexion();
     $requete = $connexion->prepare("SELECT his.idHistoire, titre, his.histoire, urlImageHistoire, urlImageCategorie, nomCategorie, nom, 
@@ -224,6 +245,42 @@ function RetrouverFavoris($idUtilisateur,$idHistoire)
     $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
     $requete->execute();
     $resultat = $requete->fetch(PDO::FETCH_ASSOC);
+    return $resultat;
+}
+function RetrouverHistoireParTitre($titre)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("SELECT his.idHistoire, titre, his.histoire, urlImageHistoire,urlImageCategorie, nomCategorie, nom, 
+                                              (AVG(style) + AVG(eva.histoire) + AVG(orthographe) + AVG(originalite))/4 as moyenne 
+                                              FROM histoire as his
+                                              LEFT JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur 
+                                              LEFT JOIN categorie as cat ON his.idCategorie = cat.idCategorie 
+                                              LEFT JOIN image as ima ON his.idImage = ima.idImage 
+                                              LEFT JOIN evaluation as eva ON his.idHistoire = eva.idHistoire 
+                                              WHERE titre LIKE :titre
+                                              GROUP BY idHistoire 
+                                              ORDER By dateCreation DESC");
+    $requete->bindParam(":titre", $titre, PDO::PARAM_STR);
+    $requete->execute();
+    $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
+    return $resultat;
+}
+function RetrouverHistoireParNom($nom)
+{
+    $connexion = RecupererConnexion();
+    $requete = $connexion->prepare("SELECT his.idHistoire, titre, his.histoire, urlImageHistoire,urlImageCategorie, nomCategorie, nom, 
+                                              (AVG(style) + AVG(eva.histoire) + AVG(orthographe) + AVG(originalite))/4 as moyenne 
+                                              FROM histoire as his
+                                              LEFT JOIN utilisateur as uti ON his.idUtilisateur = uti.idUtilisateur 
+                                              LEFT JOIN categorie as cat ON his.idCategorie = cat.idCategorie 
+                                              LEFT JOIN image as ima ON his.idImage = ima.idImage 
+                                              LEFT JOIN evaluation as eva ON his.idHistoire = eva.idHistoire 
+                                              WHERE nom LIKE :nom
+                                              GROUP BY idHistoire 
+                                              ORDER By nom ASC, dateCreation DESC");
+    $requete->bindParam(":nom", $nom, PDO::PARAM_STR);
+    $requete->execute();
+    $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;
 }
     ?>

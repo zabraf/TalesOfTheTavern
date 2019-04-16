@@ -2,17 +2,13 @@
 /*  auteur : Raphael Lopes
  *  Projet : Tales of the Tavern
  *  description : Site internet permettant de stocker des histoires et que les autres utilisateurs puissent les noter
- *  date : 12.04.19
+ *  date : 04.04.19
  *  Version : 1.0
- *  Fichier : rechecher.php
+ *  Fichier : index.php
  */
 session_start();
-if(!isset($_POST["recherche"])){
-    header("location: index.php");
-    exit();
-}
 require_once("../Controleur/controleur.inc.php");
-require_once("../Controleur/rechercher.inc.php");
+require_once("../Controleur/index.inc.php");
 ?>
 <!doctype html>
 <html lang="fr">
@@ -28,11 +24,10 @@ require_once("../Controleur/rechercher.inc.php");
 </head>
 <body>
 <?php include_once("navbar.php");?>
-<h1>Tales of the tavern</h1>
 <div class="container col-sm-12 col-md-6">
     <div class="row">
-        <a class=" col-6 btn btn-primary btn-lg" href="index.php" role="button">Trier par date</a>
-        <a class=" col-6 btn btn-primary btn-lg" href="index.php?ordre=note" role="button">Trier par moyenne</a>
+        <a class=" col-3 offset-2 btn btn-primary " href="index.php" role="button">Trier par date</a>
+        <a class=" col-3 offset-2 btn btn-primary " href="index.php?ordre=note" role="button">Trier par moyenne</a>
     </div>
 </div>
 <br/>

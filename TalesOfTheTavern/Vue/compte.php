@@ -24,7 +24,9 @@ require_once("../Controleur/compte.inc.php");
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css"  href="MyCss.css">
     <title>Tales of the tavern</title>
 </head>
@@ -37,12 +39,12 @@ require_once("../Controleur/compte.inc.php");
             <input type="text" name="nom" class="form-control" value="<?= $nom ?>" required>
         </div>
         <div class="form-group">
-            <label>E-mail*</label>
+            <label>E-mail</label>
             <input type="email" class="form-control" name="email" value="<?= $email ?>" required>
         </div>
         <div class="form-group">
-            <label>Ancien mot de passe*</label>
-            <input type="password" class="form-control" name="motDePasse" required>
+            <label>Ancien mot de passe</label>
+            <input type="password" class="form-control" name="motDePasse">
         </div>
         <div class="form-group">
             <label>Nouveau Mot de passe</label>
@@ -61,12 +63,12 @@ require_once("../Controleur/compte.inc.php");
     </form>
 </div>
 <div class="container col-12">
-    <h1>Mes histoires <a class="col-6 btn btn-primary" href="modifierHistoire.php" role="button">+</a></h1>
+    <h1>Mes histoires (moyenne <?= $moyenneAuteur ?>) <a class="btn btn-primary"  title="Ajouter une nouvelle histoire" href="modifierHistoire.php" role="button"><i class="fas fa-plus"></i></span></a></h1>
     <div >
 
     </div>
 </div>
-<div class="row">0
+<div class="row">
     <?php
         afficherHitoires();
     ?>

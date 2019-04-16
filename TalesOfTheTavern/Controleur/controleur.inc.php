@@ -7,51 +7,20 @@
  *  Fichier : controleur.inc.php
  */
 require_once("../Modele/fonctionBD.php");
-define("CHARMAX", 8);
-/// Fonction : Permettant d'insérer un utilisateur en vérifiant qu'il n'existe pas dans la base de données et que les 2 mot de passe son pareille
-/// paramètre : nom de l'utilisateur, email de l'utilisateur, mot de passe , Confirmation du mot de passe
-/// retourne : TRUE = l’utilisateur a été insérer dans la base, String = un message d'erreur
-function  InsererUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse,$motDePasseConfirmation)
+define("CHARMIN", 8);
+
+function  InsererUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse)
 {
-    //verfie que le mot de passe fait plus que 8 caractères et contient au mins un chiffre
-    $MotDePasseEstJuste = VerfieMotDePasse($motDePasse,$motDePasseConfirmation);
-    if ($MotDePasseEstJuste === true) {
-
-        if (!UtilisateurExiste($emailUtilisateur)) {
-            AjouterUtilisateur($nomUtilisateur, $emailUtilisateur, hash("sha256", $motDePasse));
-            return true;
-        } else {
-            return "Cette adresse e-mail est déjà utilisée.";
-        }
-    }
-    else {
-        return $MotDePasseEstJuste;
-    }
-
-
-
+    AjouterUtilisateur($nomUtilisateur, $emailUtilisateur,$motDePasse);
 }
-function ModifierUtilisateurParEmail($nomUtilisateur,$emailUtilisateur,$nouvelEmail,$motDePasse,$nouveauMotDePasse,$motDePasseConfirmation)
+function ModifierUtilisateurParEmail($nomUtilisateur,$emailUtilisateur,$nouvelEmail,$motDePasse)
 {
-    if(UtilisateurExisteEtMotDePasseJuste($emailUtilisateur,$motDePasse)) {
-        $MotDePasseEstJuste = VerfieMotDePasse($nouveauMotDePasse,$motDePasseConfirmation);
-        if ($MotDePasseEstJuste === true) {
-            ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$nouvelEmail,hash("sha256", $nouveauMotDePasse));
-            return true;
-        } else
-        {
-            ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$nouvelEmail,hash("sha256", $motDePasse));
-            return $MotDePasseEstJuste;
-        }
-    } else{
-        return false;
-    }
-
+    ModifierUtilisateur($nomUtilisateur,$emailUtilisateur,$nouvelEmail,hash("sha256", $motDePasse));
 }
 function VerfieMotDePasse($motDePasse,$motDePasseConfirmation)
 {
     if (preg_match('~[0-9]~', $motDePasse) >= 1 && preg_match('~[a-zA-Z]~', $motDePasse) >= 1) {
-        if (strlen($motDePasse) >= CHARMAX) {
+        if (strlen($motDePasse) >= CHARMIN) {
             if ($motDePasse === $motDePasseConfirmation) {
                 return true;
             } else {
@@ -76,8 +45,8 @@ function RetournerTouteLesCategories()
 }
 function AfficherHistoire($idHistoire,$urlImage,$titre,$auteur,$catégorie,$histoire,$afficherBouton)
 {
-    $histoireHTML = '<a style="color:inherit; text-decoration:none;" href="histoire.php?id=' . $idHistoire . '"><div class="card col-md-12 col-lg-4 mb-3">'
-        . '<img class="card-img-top" src="../' . $urlImage . '" alt="Image de l\'histoire">'
+    $histoireHTML = '<a style="color:inherit; text-decoration:none;" href="histoire.php?id=' . $idHistoire . '"><div class="h-100 card col-md-12 col-lg-4 mb-3">'
+        . '<img class="card-img-top" src="Img/' . $urlImage . '" alt="Image de l\'histoire">'
         . '<h1 class="display-4">' . $titre . '</h1>'
         . '<p class="lead"> ' . $auteur . '</p>'
         . '<p class="lead"> ' . $catégorie . '</p>'
@@ -129,7 +98,7 @@ function RetournerHistoireParId($idHistoire)
 function RetournerTouteHistoireCreerParUnUtilisateur($emailUtilisateur)
 {
     $idUtilisateur = RetrouverUtilisateur($emailUtilisateur)["idUtilisateur"];
-    return RetrouverTouteHistoireparUtilisateur($idUtilisateur);
+    return RetrouverTouteHistoireParUtilisateur($idUtilisateur);
 }
 function RetournerTouteHistoire($trie)
 {
@@ -163,7 +132,6 @@ function SuppprimerHisoireParId($idHistoire)
 function InsererEvaluation($noteStyle,$noteHistoire,$noteOrthographe,$noteOriginialite,$idHistoire)
 {
     AjouterEvaluation($noteStyle, $noteHistoire,$noteOrthographe,$noteOriginialite,$idHistoire);
-    SupprimerHistoire($idHistoire);
 }
 function InsererFavoris($emailUtilisateur,$idHistoire)
 {
@@ -188,10 +156,10 @@ function EstFavoris($emailUtilisateur,$idHistoire)
 }
 function RetournerMoyenneUtilisateur($emailUtilisateur)
 {
-     $idUtilisateur = RetrouverUtilisateur($emailUtilisateur)["idUtilisateur"];
-     $histoires =  RetrouverTouteHistoireparUtilisateur($idUtilisateur);
-     $sommeMoyenne = 0;
-     $cptHistoires = 0;
+    $idUtilisateur = RetrouverUtilisateur($emailUtilisateur)["idUtilisateur"];
+    $histoires =  RetrouverTouteHistoireParUtilisateur($idUtilisateur);
+    $sommeMoyenne = 0;
+    $cptHistoires = 0;
     for($i = 0; $i < count($histoires); $i++)
     {
         $sommeMoyenne += $histoires[$i]["moyenne"];
@@ -199,7 +167,19 @@ function RetournerMoyenneUtilisateur($emailUtilisateur)
     }
     if($cptHistoires == 0)
     {
-       return 0;
+        return 0;
     }
     return round($sommeMoyenne / $cptHistoires,1);
+}
+
+function RetournerHistoireParTitre($titre)
+{
+    $titre = "%" . $titre . "%";
+    return RetrouverHistoireParTitre($titre);
+}
+
+function RetournerHistoireParNom($nom)
+{
+    $nom = "%" . $nom . "%";
+    return RetrouverHistoireParNom($nom);
 }

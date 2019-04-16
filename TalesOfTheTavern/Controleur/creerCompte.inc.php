@@ -15,13 +15,22 @@ $confMdp = isset($_POST["confirmerMotDePasse"]) ? trim(filter_input(INPUT_POST,'
 
 if($nom != "" && $email != "" && $mdp != "" && $confMdp != "")
 {
-    // Vérifie que le l'utilisateur peux bien ètre creer
-    $erreurMessage = InsererUtilisateur($nom,$email,$mdp,$confMdp);
-    if($erreurMessage === true)
-    {
-        //Créer l'utilisateur, met son E-mail dans la session et le redirigé vers la page principale
-        $_SESSION["utilisateur"] = $email;
-        header("Location: index.php");
-        exit();
+
+    $erreurMessage = VerfieMotDePasse($mdp,$confMdp);
+    if ($erreurMessage === true) {
+        if(filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            if (!UtilisateurExiste($email)) {
+                InsererUtilisateur($nom, $email, hash("sha256", $mdp));
+                $_SESSION["utilisateur"] = $email;
+                header("Location: index.php");
+                exit();
+            } else {
+                $erreurMessage = "Cette adresse e-mail est déjà utilisée.";
+            }
+        }
+        else {
+            $erreurMessage = "$email n'est pas une adresse email valide";
+        }
     }
 }

@@ -33,18 +33,20 @@ require_once("../Controleur/histoire.inc.php");
 <div class="container col-sm-12 col-md-6 c border-1">
     <div class="card col-md-12">
         <?php
+
         echo '<img class="card-img-top" src="../' . $urlImage . '" alt="Image de l\'histoire">';
-        echo '<h1 class="display-4">' . $titre . ' (note : ' . $moyenneHistoire .')</h1>';
+        echo '<h1 class="display-4">' . $titre . ' (moyenne : ' . $moyenneGlobalHistoire .')</h1>';
         echo '<p class="lead"> ' . $auteur . ' (moyenne de l\'auteur : ' . $moyenneAuteur .')</p>';
         echo '<p class="lead"> ' . $categorie . '</p>';
-        echo '<p>'. nl2br($histoire) .  '</p>';
+        echo '<p>'. nl2br($texteHistoire) .  '</p>';
         ?>
+
 
         <form action="#" method="post">
             <div class="row">
                 <div class="col-md-6 col-12">
                     <div class="form-group">
-                        <label>Style</label>
+                        <label>Style (moyenne : <?= $moyenneStyle ?>)</label>
                         <select class="form-control" name="noteStyle">
                             <?php
                             AfficherNotation();
@@ -54,7 +56,7 @@ require_once("../Controleur/histoire.inc.php");
                 </div>
                 <div class="col-md-6 col-12">
                     <div class="form-group">
-                        <label>Hitoire</label>
+                        <label>Hitoire (moyenne : <?= $moyenneHistoire ?>)</label>
                         <select class="form-control" name="noteHistoire">
                             <?php
                             AfficherNotation();
@@ -64,7 +66,7 @@ require_once("../Controleur/histoire.inc.php");
                 </div>
                 <div class="col-md-6 col-12">
                     <div class="form-group">
-                        <label>Orthographe</label>
+                        <label>Orthographe (moyenne : <?= $moyenneOrthographe ?>)</label>
                         <select class="form-control" name="noteOrthographe">
                             <?php
                             AfficherNotation();
@@ -74,7 +76,7 @@ require_once("../Controleur/histoire.inc.php");
                 </div>
                 <div class="col-md-6 col-12">
                     <div class="form-group">
-                        <label>Orignialite</label>
+                        <label>Orignialite (moyenne : <?= $moyenneOriginalite ?>)</label>
                         <select class="form-control" name="noteOriginialite">
                             <?php
                             AfficherNotation();

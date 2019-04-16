@@ -2,13 +2,17 @@
 /*  auteur : Raphael Lopes
  *  Projet : Tales of the Tavern
  *  description : Site internet permettant de stocker des histoires et que les autres utilisateurs puissent les noter
- *  date : 04.04.19
+ *  date : 12.04.19
  *  Version : 1.0
- *  Fichier : index.php
+ *  Fichier : rechecher.php
  */
 session_start();
+if(!isset($_GET["recherche"])){
+   header("location: index.php");
+   exit();
+}
 require_once("../Controleur/controleur.inc.php");
-require_once("../Controleur/index.inc.php");
+require_once("../Controleur/rechercher.inc.php");
 ?>
 <!doctype html>
 <html lang="fr">
@@ -24,30 +28,28 @@ require_once("../Controleur/index.inc.php");
 </head>
 <body>
 <?php include_once("navbar.php");?>
-<div class="container col-sm-12 col-md-6">
-    <div class="row">
-        <a class=" col-3 offset-2 btn btn-primary btn-lg" href="index.php" role="button">Trier par date</a>
-        <a class=" col-3 offset-2 btn btn-primary btn-lg" href="index.php?ordre=note" role="button">Trier par moyenne</a>
-    </div>
-</div>
-<br/>
+<h1>Histoire par titre</h1>
 <?php
-if (isset($_SESSION["utilisateur"])){
-    if(!empty($favoris) || $favoris = ""){
-        echo "<h1>Mes favoris</h1><div class=\"row\">";
-        afficherHistoires($favoris);
-        echo "</div>";
-    }
-    else{
-        echo "<h4>Vous n'avez pas de favoris</h4>";
-    }
-
+if(!empty($histoiresParTitre) || $histoiresParTitre = ""){
+    echo "<div class=\"row\">";
+    afficherHistoires($histoiresParTitre);
+    echo "</div>";
+}
+else{
+    echo "<h4>Il n' y pas d'histoire avec se titre</h4>";
 }
 ?>
-<h1>Les histoires</h1>
-<div class="row">
-    <?php afficherHistoires($histoires); ?>
-</div>
+<h1>Histoire par nom</h1>
+<?php
+if(!empty($histoiresParAuteur) || $histoiresParAuteur = ""){
+    echo "<div class=\"row\">";
+    afficherHistoires($histoiresParAuteur);
+    echo "</div>";
+}
+else{
+    echo "<h4>Il n'y a pas d'utilisateur avec se nom</h4>";
+}
+?>
 
 <!--bootstrap-->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

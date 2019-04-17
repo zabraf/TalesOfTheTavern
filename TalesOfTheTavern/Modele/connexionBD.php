@@ -8,7 +8,9 @@
  */
 /* fonction pour connecter la base de donnéés */
 require_once("../Modele/constanteBD.php");
-
+/** permet de se connecter a la base de donner
+ * @return PDO retourn la base de données
+ */
 function RecupererConnexion() {
     static $dbc = null;
 

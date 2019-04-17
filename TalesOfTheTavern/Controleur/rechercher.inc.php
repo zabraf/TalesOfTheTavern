@@ -17,7 +17,9 @@ if($recherche == "")
 }
 $histoiresParTitre = RetournerHistoireParTitre($recherche);
 $histoiresParAuteur = RetournerHistoireParNom($recherche);
-
+/** Affiche une histoire
+ * @param $histoires int id histoire a retourner
+ */
 function afficherHistoires($histoires)
 {
     for($i = 0; $i < count($histoires); $i++)

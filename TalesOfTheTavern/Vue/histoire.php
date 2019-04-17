@@ -34,7 +34,7 @@ require_once("../Controleur/histoire.inc.php");
     <div class="card col-md-12">
         <?php
 
-        echo '<img class="card-img-top" src="../' . $urlImage . '" alt="Image de l\'histoire">';
+        echo '<img class="card-img-top" src="Img/' . $urlImage . '" alt="Image de l\'histoire">';
         echo '<h1 class="display-4">' . $titre . ' (moyenne : ' . $moyenneGlobalHistoire .')</h1>';
         echo '<p class="lead"> ' . $auteur . ' (moyenne de l\'auteur : ' . $moyenneAuteur .')</p>';
         echo '<p class="lead"> ' . $categorie . '</p>';
@@ -56,7 +56,7 @@ require_once("../Controleur/histoire.inc.php");
                 </div>
                 <div class="col-md-6 col-12">
                     <div class="form-group">
-                        <label>Hitoire (moyenne : <?= $moyenneHistoire ?>)</label>
+                        <label>Histoire (moyenne : <?= $moyenneHistoire ?>)</label>
                         <select class="form-control" name="noteHistoire">
                             <?php
                             AfficherNotation();

@@ -47,8 +47,10 @@ if($nouveauNom != "") {
 $utilisateur =  RetournerUtilisateur($_SESSION["utilisateur"]);
 $nom = $utilisateur["nom"];
 $email = $utilisateur["email"];
-
-function afficherHitoires()
+/** Affiche toute les histoire d'un utilisateur avec les button supprimer et ajouter
+ * @return array listes histoires
+ */
+function afficherHistoiresUilisateur()
 {
     $histoire = RetournerTouteHistoireCreerParUnUtilisateur($_SESSION["utilisateur"]);
     for($i = 0; $i < count($histoire); $i++)

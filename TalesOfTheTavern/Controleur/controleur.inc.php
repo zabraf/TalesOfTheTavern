@@ -280,7 +280,7 @@ function RetournerMoyenneUtilisateur($emailUtilisateur)
  */
 function RetournerHistoireParTitre($recherche)
 {
-    $titre = "%" . $recherche . "%";
+    $recherche = "%" . $recherche . "%";
     return RetrouverHistoireParTitre($recherche);
 }
 /** Retourne les histoires des utilisateur qui contiennent la recherche
@@ -289,6 +289,6 @@ function RetournerHistoireParTitre($recherche)
  */
 function RetournerHistoireParNom($recherche)
 {
-    $nom = "%" . $recherche . "%";
+    $recherche = "%" . $recherche . "%";
     return RetrouverHistoireParNom($recherche);
 }

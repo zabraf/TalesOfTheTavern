@@ -6,7 +6,7 @@
  *  Version : 1.0
  *  Fichier : constanteBD.php
  */
-DEFINE('DB_USER', 'AdminTalesTPI');
-DEFINE('DB_PASSWORD', 'SuperTales19');
+DEFINE('DB_USER', 'TalesTPI');
+DEFINE('DB_PASSWORD', 'Tales19');
 DEFINE('DB_HOST', 'localhost');
 DEFINE('DB_NAME', 'bd_tales');

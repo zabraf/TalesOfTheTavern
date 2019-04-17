@@ -56,7 +56,7 @@ require_once("../Controleur/histoire.inc.php");
                 </div>
                 <div class="col-md-6 col-12">
                     <div class="form-group">
-                        <label>Hitoire (moyenne : <?= $moyenneHistoire ?>)</label>
+                        <label>Histoire (moyenne : <?= $moyenneHistoire ?>)</label>
                         <select class="form-control" name="noteHistoire">
                             <?php
                             AfficherNotation();

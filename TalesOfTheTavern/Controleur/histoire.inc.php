@@ -59,6 +59,8 @@ $moyenneHistoire = round($histoire["moyenneHistoire"],1);
 $moyenneOrthographe = round($histoire["moyenneOrthographe"],1);
 $moyenneOriginalite =round($histoire["moyenneOriginalite"],1);
 
+/** affiche les options de 1 a 5
+ */
 function AfficherNotation()
 {
     for($i = 1; $i <= 5; $i++)

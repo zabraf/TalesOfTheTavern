@@ -7,8 +7,11 @@
  *  Fichier : fonctionBD.php
  */
 require_once("../Modele/connexionBD.php");
-/// Fonction : Permettant d'insérer un utilisateur dans la base
-/// paramètre : nom de l'utilisateur, email de l'utilisateur, mot de passe hasher
+/** ceci Permet d'insérer un utilisateur dans la base
+ * @param $nomUtilisateur string non utilisateur
+ * @param $emailUtilisateur string email utilisateur
+ * @param $motDePasse string mot de passe
+ */
 function AjouterUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse)
 {
     $connexion = RecupererConnexion();
@@ -18,6 +21,11 @@ function AjouterUtilisateur($nomUtilisateur,$emailUtilisateur,$motDePasse)
     $requete->bindParam(":motDePasse", $motDePasse, PDO::PARAM_STR);
     $requete->execute();
 }
+
+/** ceci Permet de modifier nom d'un utilisateur dans la base
+ * @param $emailUtilisateur string email de l'utilisateur
+ * @param $nomUtilisateur string nouveau nom de l'utilisateur
+ */
 function ModifierUtilisateurNom($emailUtilisateur,$nomUtilisateur)
 {
     $connexion = RecupererConnexion();
@@ -26,6 +34,12 @@ function ModifierUtilisateurNom($emailUtilisateur,$nomUtilisateur)
     $requete->bindParam(":email", $emailUtilisateur, PDO::PARAM_STR);
     $requete->execute();
 }
+
+/**  ceci Permet de modifier nom et email d'un utilisateur dans la base
+ * @param $emailUtilisateur string ancien email de l'utilisateur
+ * @param $nomUtilisateur string  nouveau nom de l'utilisateur
+ * @param $nouvelEmail string nouvel email de l'utilisateur
+ */
 function ModifierUtilisateurNomEmail($emailUtilisateur,$nomUtilisateur,$nouvelEmail)
 {
     $connexion = RecupererConnexion();
@@ -35,6 +49,13 @@ function ModifierUtilisateurNomEmail($emailUtilisateur,$nomUtilisateur,$nouvelEm
     $requete->bindParam(":email", $emailUtilisateur, PDO::PARAM_STR);
     $requete->execute();
 }
+
+/** ceci Permet de modifier nom, email et mot de passe d'un utilisateur dans la base
+ * @param $emailUtilisateur string ancien email de l'utilisateur
+ * @param $nomUtilisateur string nouveau nom de l'utilisateur
+ * @param $nouvelEmail string nouvel email de l'utilisateur
+ * @param $motDePasse string nouveau mot de passe de l'utilisateur
+ */
 function ModifierUtilisateurNomEmailMotDePasse($emailUtilisateur,$nomUtilisateur,$nouvelEmail,$motDePasse)
 {
     $connexion = RecupererConnexion();
@@ -45,8 +66,10 @@ function ModifierUtilisateurNomEmailMotDePasse($emailUtilisateur,$nomUtilisateur
     $requete->bindParam(":email", $emailUtilisateur, PDO::PARAM_STR);
     $requete->execute();
 }
-/// Fonction : Permettant de recuperer un utilisateur avec son email
-/// paramètre : email de l'utilisateur
+/**  ceci Permet de recuperer un utilisateur avec son email
+ * @param $emailUtilisateur string email de l'utilisateur
+ * @return array|bool retourne un utilisateur si l'utilisateur le trouve | false si il n'y a rien
+ */
 function RetrouverUtilisateur($emailUtilisateur)
 {
     $connexion = RecupererConnexion();
@@ -56,6 +79,10 @@ function RetrouverUtilisateur($emailUtilisateur)
     $resultat = $requete->fetch(PDO::FETCH_ASSOC);
     return $resultat;
 }
+
+/** ceci Permet de récuperer toute les catégories
+ * array|bool retourne toute les catégorie | false si il n'y a rien
+ */
 function RetrouverTouteLesCatégories()
 {
     $connexion = RecupererConnexion();
@@ -65,7 +92,15 @@ function RetrouverTouteLesCatégories()
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;
 }
-function AjouterHitoire($titre,$histoire,$idImage,$idCatégorie,$idUtilisateur)
+
+/** ceci permet de rajouter une histoire dans la base de données
+ * @param $titre string titre de l'histoire
+ * @param $histoire string texte de l'hitoire
+ * @param $idImage int id de l'image
+ * @param $idCatégorie int id de la catégorie
+ * @param $idUtilisateur int id de l'utilisateur
+ */
+function AjouterHistoire($titre,$histoire,$idImage,$idCatégorie,$idUtilisateur)
 {
     $connexion = RecupererConnexion();
     $requete = $connexion->prepare("INSERT INTO histoire(titre, DateCreation, histoire, idImage, idCategorie, idUtilisateur) VALUES (:titre,NOW(),:histoire,:idImage,:idCategorie,:idUtilisateur)");
@@ -76,6 +111,11 @@ function AjouterHitoire($titre,$histoire,$idImage,$idCatégorie,$idUtilisateur)
     $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
     $requete->execute();
 }
+
+/** ceci permet de rajouter une image (url) dans la db
+ * @param $urlImage string url de l'image
+ * @return int last inserted id
+ */
 function AjouterImage($urlImage)
 {
     $connexion = RecupererConnexion();
@@ -84,7 +124,15 @@ function AjouterImage($urlImage)
     $requete->execute();
     return $connexion->lastInsertId();
 }
-function ModifierHitoire($idHistoire, $titre,$histoire,$idImage,$idCategorie)
+
+/** ceci permet de modifier une histoire
+ * @param $idHistoire int id de l'histoire
+ * @param $titre string titre de l'histoire
+ * @param $histoire string texte de l'histoire
+ * @param $idImage int id de l'image
+ * @param $idCategorie int id catégorie
+ */
+function ModifierHistoire($idHistoire, $titre,$histoire,$idImage,$idCategorie)
 {
     $connexion = RecupererConnexion();
     $requete = $connexion->prepare("UPDATE histoire SET titre=:titre,histoire=:histoire,idImage=:idImage,idCategorie=:idCategorie WHERE idHistoire = :idHistoire");
@@ -95,6 +143,10 @@ function ModifierHitoire($idHistoire, $titre,$histoire,$idImage,$idCategorie)
     $requete->bindParam(":idHistoire", $idHistoire, PDO::PARAM_INT);
     $requete->execute();
 }
+
+/** ceci permet de supprimer une histoire
+ * @param $idHistoire int id de l'histoire
+ */
 function SupprimerHistoire($idHistoire)
 {
     $connexion = RecupererConnexion();
@@ -102,6 +154,11 @@ function SupprimerHistoire($idHistoire)
     $requete->bindParam(":idHistoire", $idHistoire, PDO::PARAM_INT);
     $requete->execute();
 }
+
+/** ceci permet de retouver une histoire la personne qui l'a créer sa catégorie son email et les 5 moyennes de l'histoires
+ * @param $idHistoire int id de l'histoire
+ * @return array|bool retourne histoire, utilisateur, catégorie, moyenne | false si il n'y a rien
+ */
 function RetrouverHistoireParId($idHistoire)
 {
     $connexion = RecupererConnexion();
@@ -123,6 +180,11 @@ function RetrouverHistoireParId($idHistoire)
     $resultat = $requete->fetch(PDO::FETCH_ASSOC);
     return $resultat;
 }
+
+/** ceci permet de retouver une histoire la personne qui l'a créer sa catégorie son email et les 5 moyennes de l'histoires
+ * @param $idUtilisateur int id de l'utilisateur
+ * @return array|bool retourne histoire, utilisateur, catégorie, moyenne | false si il n'y a rien
+ */
 function RetrouverTouteHistoireParUtilisateur($idUtilisateur)
 {
     $connexion = RecupererConnexion();
@@ -140,6 +202,11 @@ function RetrouverTouteHistoireParUtilisateur($idUtilisateur)
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;
 }
+
+/** ceci permet de retouver les favoris d'un utilisateur trier par date
+ * @param $idUtilisateur int id de l'utilisateur
+ * @return array|bool retourne des histoires | false si il n'y a rien
+ */
 function RetrouverTouteFavorisTrierParDate($idUtilisateur)
 {
     $connexion = RecupererConnexion();
@@ -159,6 +226,9 @@ function RetrouverTouteFavorisTrierParDate($idUtilisateur)
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;
 }
+/** ceci permet de retouver toute les histoires trier par date
+ * @return array|bool retourne des histoires | false si il n'y a rien
+ */
 function RetrouverTouteHistoireTrierParDate()
 {
     $connexion = RecupererConnexion();
@@ -175,6 +245,10 @@ function RetrouverTouteHistoireTrierParDate()
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;
 }
+/** ceci permet de retouver les favoris d'un utilisateur trier par moyenne
+ * @param $idUtilisateur int id de l'utilisateur
+ * @return array|bool retourne des histoires | false si il n'y a rien
+ */
 function RetrouverTouteFavorisTrierParMoyenne($idUtilisateur)
 {
     $connexion = RecupererConnexion();
@@ -194,6 +268,9 @@ function RetrouverTouteFavorisTrierParMoyenne($idUtilisateur)
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;
 }
+/** ceci permet de retouver toute les histoires trier par moyenne
+ * @return array|bool retourne des histoires | false si il n'y a rien
+ */
 function RetrouverTouteHistoireTrierParMoyenne()
 {
     $connexion = RecupererConnexion();
@@ -210,6 +287,14 @@ function RetrouverTouteHistoireTrierParMoyenne()
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;
 }
+
+/** ceci permet d'ajouter une nouvelle évaluation a une histoire
+ * @param $noteStyle int note sur le style
+ * @param $noteHistoire int note sur le histoire(texte)
+ * @param $noteOrthographe int note sur le Orthographe
+ * @param $noteOriginialite int note sur le Originalité
+ * @param $idHistoire int id de l'histoire
+ */
 function AjouterEvaluation($noteStyle, $noteHistoire,$noteOrthographe,$noteOriginialite,$idHistoire)
 {
     $connexion = RecupererConnexion();
@@ -221,6 +306,11 @@ function AjouterEvaluation($noteStyle, $noteHistoire,$noteOrthographe,$noteOrigi
     $requete->bindParam(":idHistoire", $idHistoire, PDO::PARAM_INT);
     $requete->execute();
 }
+
+/** ceci pemet d'ajouter une histoire en favoris a un utilisateur
+ * @param $idUtilisateur int id de l'utilisateur
+ * @param $idHistoire int id de l'histoire
+ */
 function AjouterFavoris($idUtilisateur,$idHistoire)
 {
     $connexion = RecupererConnexion();
@@ -229,6 +319,10 @@ function AjouterFavoris($idUtilisateur,$idHistoire)
     $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
     $requete->execute();
 }
+/** ceci pemet de supprimer une histoire en favoris a un utilisateur
+ * @param $idUtilisateur int id de l'utilisateur
+ * @param $idHistoire int id de l'histoire
+ */
 function SupprimerFavoris($idUtilisateur,$idHistoire)
 {
     $connexion = RecupererConnexion();
@@ -237,6 +331,12 @@ function SupprimerFavoris($idUtilisateur,$idHistoire)
     $requete->bindParam(":idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
     $requete->execute();
 }
+
+/** ceci permet de retrouver si un utilisateur est a une histoire en favoris
+ * @param $idUtilisateur int id de utilisateur
+ * @param $idHistoire int id de l'histoire
+ * @return array|bool retourne un favoris | false si il n'y a rien
+ */
 function RetrouverFavoris($idUtilisateur,$idHistoire)
 {
     $connexion = RecupererConnexion();
@@ -247,6 +347,11 @@ function RetrouverFavoris($idUtilisateur,$idHistoire)
     $resultat = $requete->fetch(PDO::FETCH_ASSOC);
     return $resultat;
 }
+
+/** ceci retourne toute les histoire qui on se titre
+ * @param $titre string titre de l'histoire
+ * @return array|bool retourne des histoires | false si il n'y a rien
+ */
 function RetrouverHistoireParTitre($titre)
 {
     $connexion = RecupererConnexion();
@@ -265,6 +370,10 @@ function RetrouverHistoireParTitre($titre)
     $resultat = $requete->fetchAll(PDO::FETCH_ASSOC);
     return $resultat;
 }
+/** ceci retourne toute les histoire ou le nom de l'auteur est égale au nom au paramètre
+ * @param $titre string titre de l'histoire
+ * @return array|bool retourne des histoires | false si il n'y a rien
+ */
 function RetrouverHistoireParNom($nom)
 {
     $connexion = RecupererConnexion();

@@ -70,7 +70,7 @@ require_once("../Controleur/compte.inc.php");
 </div>
 <div class="row">
     <?php
-        afficherHitoires();
+        afficherHistoiresUilisateur();
     ?>
 </div>
 <!--bootstrap-->

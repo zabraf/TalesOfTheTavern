@@ -62,7 +62,7 @@ if($titre != "" && $histoire != "" && $categorie != "") {
     //TODO Modifier gestion d'erreur
     if(isset($_GET["id"]))
     {
-       ModifierHitoire($idHistoire,$titre,$histoire,$idImage,$categorie);
+       ModifierHistoire($idHistoire,$titre,$histoire,$idImage,$categorie);
     }
     else
     {
@@ -76,7 +76,9 @@ if($titre != "" && $histoire != "" && $categorie != "") {
 
 
 }
-
+/** affiche tout les catégorie dans la base
+ *
+ */
 function AfficherTouteLesCategorie()
 {
     $touteLescategorie = RetournerTouteLesCategories();
@@ -85,6 +87,9 @@ function AfficherTouteLesCategorie()
     }
 }
 
+/** affiche tout les catégorie dans la base avec un selectioner
+ * @param $id int id de la catégorie
+ */
 function AfficherTouteLesCategorieAvecUneSelectioner($id)
 {
     $touteLescategorie = RetournerTouteLesCategories();

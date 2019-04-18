@@ -33,7 +33,6 @@ USE `bd_tales`;
 CREATE TABLE `categorie` (
   `idCategorie` int(11) NOT NULL,
   `nomCategorie` varchar(50) NOT NULL,
-  `urlImageCategorie` varchar(300) NOT NULL,
   `urlImageCategorie` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
